@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: white;
+}
+
+.slick-slide > div {
+  margin: 0 10px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #2D4944!important;
+}
