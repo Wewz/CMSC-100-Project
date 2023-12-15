@@ -7,7 +7,7 @@ function RootNotSigned() {
   return (
     <div className="">
       <Hero />
-        <Product />
+      <Product />
     </div>
   );
 }

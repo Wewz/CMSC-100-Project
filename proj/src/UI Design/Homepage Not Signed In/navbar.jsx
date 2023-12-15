@@ -3,6 +3,7 @@ import { TiThMenu } from "react-icons/ti";
 import { FaHome } from "react-icons/fa";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
 
 import LogIn from '../log-in/logIn';
 
@@ -37,8 +38,10 @@ const NavBar = () => {
                 <div className="hidden xl:flex">
                     <ul className="flex items-center text-[#2D4944] font-semibold">
                         <li className="p-4 flex hover:text-[#77AC6F]"> 
-                            <FaHome size={20} className="mr-2"/> 
-                            Home
+                            <Link to="/" className="flex">
+                                <FaHome size={20} className="mr-2"/> 
+                                Home
+                            </Link>
                         </li>
 
                         <li className="p-4 flex hover:text-[#77AC6F]">
@@ -52,9 +55,11 @@ const NavBar = () => {
                         </li>
 
                         <li className="p-4">
-                            <button className="p-2 w-28 border rounded-lg border-[#2D4944] hover:bg-[#DCE0DC] hover:border-[#DCE0DC]">
-                                Sign Up
-                            </button>
+                            <Link to="/sign-up">
+                                <button className="p-2 w-28 border rounded-lg border-[#2D4944] hover:bg-[#DCE0DC] hover:border-[#DCE0DC]">
+                                    Sign Up
+                                </button>
+                            </Link>
                         </li>
 
                         <li className="p-4">
