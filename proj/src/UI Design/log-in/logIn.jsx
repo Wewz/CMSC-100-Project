@@ -2,8 +2,14 @@ import React from "react";
 import { FaWindowClose } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { Link } from 'react-router-dom';
 
-const LogIn = ({openLogin, closeLogin}) => {
+const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
+
+    const checkUser = () => {
+        
+    }
+
     if(!openLogin) return null
     else
         return(
@@ -42,7 +48,11 @@ const LogIn = ({openLogin, closeLogin}) => {
                                 placeholder="Password" required />
                             </div>
 
-                            <button className="bg-[#2D4944] w-[60%] h-16 mt-8 text-white rounded-full hover:bg-[#497069]">Log In</button>
+                            <button className="bg-[#2D4944] w-[60%] h-16 mt-8 text-white rounded-full hover:bg-[#497069]"
+                                onClick={checkUser} >
+                                    Log In
+                            </button>
+
                         </div>
                 
                     </div>

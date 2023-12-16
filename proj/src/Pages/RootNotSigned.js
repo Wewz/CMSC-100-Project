@@ -5,7 +5,7 @@ import Product from "../UI Design/Homepage Not Signed In/products";
 
 function RootNotSigned() {
   return (
-    <div className="">
+    <div>
       <Hero />
       <Product />
     </div>

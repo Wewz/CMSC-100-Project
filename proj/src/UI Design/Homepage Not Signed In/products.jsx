@@ -68,8 +68,8 @@ const Product = () => {
                     <div className="text-[#2D4944]">
                         <p className="text-sm">
                             <span className="font-medium text-xl">
-                                Latest Sellers  </span>
-                            — December 12, 2023
+                                Best Sellers  </span>
+                            — December 18, 2023
                         </p>
                     </div>
 

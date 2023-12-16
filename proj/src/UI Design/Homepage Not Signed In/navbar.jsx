@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import LogIn from '../log-in/logIn';
 
-const NavBar = () => {
+const NavBarNotSigned = ({setUserLogged, setUser}) => {
 
     const [nav, setNav] = useState(false);
     const [openLogin, setLogIn] = useState(false);
@@ -83,9 +83,11 @@ const NavBar = () => {
                     </div>
 
                     <ul className=" ml-[10%] pt-16">
-                        <li className="py-4 pl-2 flex ml-8 w-28 text-[#2D4944] hover:text-[#77AC6F]">  
-                            <FaHome size={20} className="mr-2"/>
-                            Home
+                        <li className="py-4 pl-2 flex ml-8 w-28 text-[#2D4944] hover:text-[#77AC6F]">
+                            <Link to="/" className="flex">  
+                                <FaHome size={20} className="mr-2"/>
+                                Home
+                            </Link>
                         </li>
 
                         <li className="py-4 pl-2 flex ml-8 w-32 text-[#2D4944] hover:text-[#77AC6F]">
@@ -100,7 +102,9 @@ const NavBar = () => {
                         </li>
 
                         <li className="p-4">
+                        <Link to="/sign-up">
                             <button className="p-2 w-10/12 border rounded-lg border-[#2D4944] hover:bg-[#DCE0DC] hover:border-[#DCE0DC]">Sign Up</button>
+                        </Link>
                         </li>
 
                         <li className="p-4">
@@ -111,9 +115,9 @@ const NavBar = () => {
 
             </div>
 
-            <LogIn openLogin={openLogin} closeLogin={() => setLogIn(false)} />
+            <LogIn openLogin={openLogin} closeLogin={() => setLogIn(false)} setUserLogged={setUserLogged} setUser={setUser} />
         </Fragment>
     );
 }
 
-export default NavBar;
+export default NavBarNotSigned;

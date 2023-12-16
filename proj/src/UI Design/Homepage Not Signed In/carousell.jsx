@@ -126,21 +126,21 @@ const ProductCarousel = () => {
                 </Slider>
             </div>
 
-            <div className="sm:block mg:hidden lg:hidden xl:hidden 2xl:hidden mt-6 bg-[#DCE0DC] rounded-3xl p-8">
+            <div className="sm:block md:hidden lg:hidden xl:hidden 2xl:hidden mt-6 bg-[#DCE0DC] rounded-3xl p-8">
                 <Slider {...settings} className="">
                 {products.map((product, index) => (
                     <div>
                         <div className="bg-white border border-[#2D4944] rounded-2xl" key={index}>
 
-                            <div className="rounded-t-2xl flex h-16 items-center justify-center">
-                                <img className="object-cover" src={product.url} alt="" />
+                            <div className="rounded-t-2xl flex h-36 items-center justify-center">
+                                <img className="object-cover object-center w-full h-full rounded-t-2xl" src={product.url} alt="" />
                             </div>
 
                             <div className="flex justify-between items-center">
-                                <div className="flex flex-col gap-1 p-4 pl-6">
-                                    <p className="text-[#2D4944] text-md font-bold">{product.ptitle}</p>
-                                    <p className="text-[#6b9089] text-md font-bold" >{product.price}</p>
-                                    <p className="text-[#6b6b6b] text-sm">{product.quantity}</p>
+                                <div className="flex flex-col gap-1 p-4 pl- truncate">
+                                    <p className="text-[#2D4944] text-md font-bold truncate">{product.ptitle}</p>
+                                    <p className="text-[#6b9089] text-md font-bold truncate" >₱{product.price}.00</p>
+                                    <p className="text-[#6b6b6b] text-sm">Quantity: {product.quantity}</p>
                                 </div>
                             </div>
                         </div>

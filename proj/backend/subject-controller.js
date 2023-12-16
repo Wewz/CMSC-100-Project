@@ -88,25 +88,46 @@ const deleteProduct = async (req, res) => {
 }
 //users
 const getUser = async (req, res) => {
-	const users = await User.find({});
-	res.send(users)
+
+	const users = await User.findOne({ username: req.body.username });
+
+	if (!users) {
+		users = await User.findOne({ email: req.body.username });
+	}
+
+	if (users) {
+		const pass = await User.findOne({ password: req.body.password });
+		if(!pass.length) {
+			res.send({success: true, user:users});
+		}
+		res.send({ success: false, problem:"Wrong password" });
+	}
+	res.send({ success: false, problem:"No Such User Exist" });
 }
+
 const addUser = async (req, res) => {
-	const { fname,lname, bday, phone,
-		hNum, subd, brg, muni, prov,
-		email, username, password,type } = req.body
+	const { fname, lname, bday, phone,
+	hNum, subd, brg, muni, prov,
+	email, username, password, type } = req.body;
+	
+		const existingUser = await User.findOne({ username: username });
 
-	const newUser = new User({ 
-		fname, lname, bday, phone,
-		hNum, subd, brg, muni, prov,
-		email, username, password, type })
+		if (existingUser) {
+			res.send({ success: false, message: 'Username already exists.' });
+		} else {
+		const newUser = new User({
+			fname, lname, bday, phone,
+			hNum, subd, brg, muni, prov,
+			email, username, password, type
+		});
 
-	const result = await newUser.save()
+		const result = await newUser.save();
 
-	if (result._id) {
-		res.send({ success: true })
-	} else {
-		res.send({ success: false })
+		if (result._id) {
+			res.send({ success: true });
+		} else {
+			res.send({ success: false, message: 'Error creating user.' });
+		}
 	}
 }
 

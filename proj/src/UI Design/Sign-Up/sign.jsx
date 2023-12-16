@@ -47,8 +47,9 @@ function Sign() {
                 email: "", username: "", password: "",
                 type: "buyer"
             });            
-        
-            alert("Data saved successfully");
+            
+            if(data.success) alert("Data saved successfully");
+            else alert(data.message)
         } catch (error) {
             console.error('Error:', error.message);
             alert('Failed to save data. Please try again.');
