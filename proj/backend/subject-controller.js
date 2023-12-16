@@ -13,9 +13,16 @@ const Product = mongoose.model('Products', {
 
 const User = mongoose.model('Users', {
 	fname: String,
-	mname: String,
 	lname: String,
+	bday: String,
+	phone: String,
+    hNum: String, 
+	subd: String, 
+	brg: String, 
+	muni: String, 
+	prov: String,
 	email: String,
+	username: String,
 	password: String,
 	type: String
 });
@@ -85,9 +92,14 @@ const getUser = async (req, res) => {
 	res.send(users)
 }
 const addUser = async (req, res) => {
-	const { fname,mname,lname,email,password,type } = req.body
+	const { fname,lname, bday, phone,
+		hNum, subd, brg, muni, prov,
+		email, username, password,type } = req.body
 
-	const newUser = new User({ fname,mname,lname,email,password,type })
+	const newUser = new User({ 
+		fname, lname, bday, phone,
+		hNum, subd, brg, muni, prov,
+		email, username, password, type })
 
 	const result = await newUser.save()
 

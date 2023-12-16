@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { GrContactInfo } from "react-icons/gr";
 import { MdAccountCircle } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
@@ -8,6 +8,53 @@ import Address from "./address";
 import Account from "./account";
 
 function Sign() {
+
+    const [user, setUser] = useState({
+        fname: "", lname: "", bday: "",phone: "",
+        hNum: "", subd: "", brg: "", muni: "", prov: "",
+        email: "",
+        username: "",
+        password: "",
+        type: "buyer"
+      });
+
+    const [signup, setSignup] = useState(false);
+
+    const newUser = async (e) => {
+        e.preventDefault();
+
+        const {fname, lname, bday, phone, hNum, subd, brg, muni, prov, email, username, password, type } = user;
+    
+        try {
+            const result = await fetch('http://localhost:3001/add-user', {
+                method: "post",
+                body: JSON.stringify({
+                    fname, lname, bday, phone, hNum, subd, brg, muni, prov, email, username, password, type 
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+    
+            if (!result.ok) {
+                throw new Error(`Failed to save data. Status: ${result.status}`);
+            }
+        
+            const data = await result.json();
+            console.warn(data);
+            
+            setUser({
+                fname: "", lname: "", bday: "",phone: "",
+                hNum: "", subd: "", brg: "", muni: "", prov: "",
+                email: "", username: "", password: "",
+                type: "buyer"
+            });            
+        
+            alert("Data saved successfully");
+        } catch (error) {
+            console.error('Error:', error.message);
+            alert('Failed to save data. Please try again.');
+        }
+    }
+
     return (
       <div>
         <div className="">
@@ -34,7 +81,7 @@ function Sign() {
                             </div>
                         </div>
 
-                        <Info />
+                        <Info user={user} setUser={setUser} />
                     </div>
 
                     <div className="w-[28%] flex flex-col mx-10">
@@ -50,7 +97,7 @@ function Sign() {
                             </div>
                         </div>
 
-                        <Address />
+                        <Address user={user} setUser={setUser} />
                     </div>
 
                     <div className="w-[28%] flex flex-col mx-10">
@@ -65,7 +112,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Account />
+                        <Account user={user} setUser={setUser} signUp={newUser} />
                     </div>
 
                 </div>
@@ -89,7 +136,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Info />
+                        <Info user={user} setUser={setUser} />
                     </div>
 
                     <div className="w-[28%] flex flex-col mx-10">
@@ -104,7 +151,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Address />
+                        <Address user={user} setUser={setUser} />
                     </div>
 
                     <div className="w-[28%] flex flex-col mx-10">
@@ -119,7 +166,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Account />
+                        <Account user={user} setUser={setUser} newUser={newUser} />
                     </div>
 
                 </div>
@@ -142,7 +189,7 @@ function Sign() {
                                 <h2 className="text-sm">Personal Information</h2>
                             </div>
                         </div>
-                        <Info />
+                        <Info user={user} setUser={setUser} />
                     </div>
 
                     <div className="w-[50%] flex flex-col mx-10">
@@ -157,7 +204,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Address />
+                        <Address user={user} setUser={setUser} />
                     </div>
 
                     <div className="w-[50%] flex flex-col mx-10">
@@ -172,7 +219,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Account />
+                        <Account user={user} setUser={setUser} newUser={newUser} />
                     </div>
 
 
@@ -193,7 +240,7 @@ function Sign() {
                                 <h2 className="text-sm">Personal Information</h2>
                             </div>
                         </div>
-                        <Info />
+                        <Info user={user} setUser={setUser} />
                     </div>
 
                     <div className="w-[60%] flex flex-col mx-10">
@@ -208,7 +255,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Address />
+                        <Address user={user} setUser={setUser} />
                     </div>
 
                     <div className="w-[60%] flex flex-col mx-10">
@@ -223,7 +270,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Account />
+                        <Account user={user} setUser={setUser} newUser={newUser} />
                     </div>
                 </div>
 
