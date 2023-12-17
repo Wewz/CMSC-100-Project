@@ -33,6 +33,8 @@ function Sign() {
                 }),
                 headers: { 'Content-Type': 'application/json' }
             });
+
+            console.log(result);
     
             if (!result.ok) {
                 throw new Error(`Failed to save data. Status: ${result.status}`);
@@ -77,7 +79,7 @@ function Sign() {
                                     <GrContactInfo size={33} />
                                 </div>
                                 <div className="w-[10%]"></div>
-                                <h2>Personal Information</h2>
+                                    <h2>Personal Information</h2>
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
@@ -93,7 +95,7 @@ function Sign() {
                                     <FaLocationDot size={30} />
                                 </div>
                                 <div className="w-[10%]"></div>
-                                <h2>Address</h2>
+                                    <h2>Address</h2>
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
@@ -109,7 +111,7 @@ function Sign() {
                                     <MdAccountCircle size={30} />
                                 </div>
                                 <div className="w-[10%]"></div>
-                                <h2>Account</h2>
+                                    <h2>Account</h2>
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>

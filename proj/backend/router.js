@@ -17,6 +17,6 @@ export default function router(app) {
   app.post("/add-product", addProduct);
   app.post("/delete-product", deleteProduct);
   app.post("/add-user", addUser);
-  app.get("/get-user", getUser);
+  app.post("/get-user", getUser);
 
 }

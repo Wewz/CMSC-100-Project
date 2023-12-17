@@ -88,22 +88,31 @@ const deleteProduct = async (req, res) => {
 }
 //users
 const getUser = async (req, res) => {
+	try {
+		console.log(req.body.username);
 
-	const users = await User.findOne({ username: req.body.username });
+		let users = await User.findOne({ username: req.body.username });
 
-	if (!users) {
+		if (!users) {
 		users = await User.findOne({ email: req.body.username });
-	}
-
-	if (users) {
-		const pass = await User.findOne({ password: req.body.password });
-		if(!pass.length) {
-			res.send({success: true, user:users});
 		}
-		res.send({ success: false, problem:"Wrong password" });
+
+		if (users) {
+		const pass = req.body.password;
+
+		if (pass === users.password) {
+			res.send({ success: true, user: users });
+		} else {
+			res.send({ success: false, problem: 'Wrong password' });
+		}
+		} else {
+		res.send({ success: false, problem: 'No Such User Exist' });
+		}
+	} catch (error) {
+		console.error('Error:', error.message);
+		res.status(500).send({ success: false, problem: 'Internal Server Error' });
 	}
-	res.send({ success: false, problem:"No Such User Exist" });
-}
+};
 
 const addUser = async (req, res) => {
 	const { fname, lname, bday, phone,

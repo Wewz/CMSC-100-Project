@@ -21,7 +21,7 @@ const Hero = () => {
                         </button>
 
                         <div className="h-24">
-                            <input type="text" id="search" class="bg-white border border-[#2D4944] text-[#2D4944] text-m rounded-full
+                            <input type="text" className="bg-white border border-[#2D4944] text-[#2D4944] text-m rounded-full
                                 pl-28 pr-10 h-14 ms-2 focus:border-[#507c74] w-full" 
                                 placeholder="Search product name..." required />
                         </div>
@@ -59,7 +59,7 @@ const Hero = () => {
                         </button>
 
                         <div className="h-24">
-                            <input type="text" id="search" class="bg-white border border-[#2D4944] text-[#2D4944] text-m rounded-full
+                            <input type="text" className="bg-white border border-[#2D4944] text-[#2D4944] text-m rounded-full
                                 pl-28 pr-10 h-14 ms-2 focus:border-[#507c74] w-full" 
                                 placeholder="Search product name..." required />
                         </div>
@@ -95,7 +95,7 @@ const Hero = () => {
                         </button>
 
                         <div className="mb-4">
-                            <input type="text" id="search" class="bg-white border border-[#2D4944] text-[#2D4944] text-xs rounded-full
+                            <input type="text" className="bg-white border border-[#2D4944] text-[#2D4944] text-xs rounded-full
                                 pl-16 pr-10 h-10 focus:border-[#507c74] w-full" 
                                 placeholder="Search product name..." required />
                         </div>

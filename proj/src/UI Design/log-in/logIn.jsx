@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaWindowClose } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -6,10 +6,51 @@ import { Link } from 'react-router-dom';
 
 const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
 
-    const checkUser = () => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [users, setUsers] = useState([]);
+    const [isLogIn, setIsLogIn] = useState(false);
+  
+    const handleLogIn = () => {
+      setIsLogIn(!isLogIn);
+    };
+  
+    const fetchUser = async () => {
+        console.log(username + " " + password);
+      
+        try {
+            const response = await fetch('http://localhost:3001/get-user', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body: JSON.stringify({ username, password }),
+            });
         
-    }
-
+            if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        
+            const body = await response.json();
+        
+            console.log(body);
+        
+            if (body.success) {
+            console.log('User found!');
+            setUsers(body.user);
+            } else {
+            console.log('No user found for the specified query or wrong password');
+            }
+        } catch (error) {
+            console.error('Fetch error:', error.message);
+        }
+    };
+  
+    useEffect(() => {
+        if (isLogIn) {
+            fetchUser();
+            handleLogIn(); // Remove this line if you only want to trigger login once
+        }
+    }, [isLogIn]);
+    
     if(!openLogin) return null
     else
         return(
@@ -33,9 +74,9 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
                                     <FaUser size={25} />
                                 </div>
 
-                                <input type="text" id="search" class="text-[#2D4944] rounded-full border border-[#2D4944]
+                                <input type="text" className="text-[#2D4944] rounded-full border border-[#2D4944]
                                 pl-36 w-full h-full focus:border-[#507c74]" 
-                                placeholder="Username" required />
+                                placeholder="Username" required value={username} onChange={(e) => setUsername(e.target.value)} />
                             </div>
 
                             <div className="bg-white h-16 mt-8 flex text-center items-center w-[60%] text-[#2D4944] text-md font-semibold rounded-full">
@@ -43,13 +84,13 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
                                     <RiLockPasswordFill size={25} />
                                 </div>
 
-                                <input type="password" id="search" class="text-[#2D4944] rounded-full border border-[#2D4944]
+                                <input type="password" className="text-[#2D4944] rounded-full border border-[#2D4944]
                                 pl-36 w-full h-full focus:border-[#507c74]" 
-                                placeholder="Password" required />
+                                placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
 
                             <button className="bg-[#2D4944] w-[60%] h-16 mt-8 text-white rounded-full hover:bg-[#497069]"
-                                onClick={checkUser} >
+                                onClick={handleLogIn} >
                                     Log In
                             </button>
 
@@ -76,9 +117,9 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
                                     <FaUser size={20} />
                                 </div>
 
-                                <input type="text" id="search" class="text-[#2D4944] rounded-full border border-[#2D4944]
+                                <input type="text" className="text-[#2D4944] rounded-full border border-[#2D4944]
                                 text-sm pl-[100px] w-full h-full focus:border-[#507c74]" 
-                                placeholder="Username" required />
+                                placeholder="Username" required value={username} onChange={(e) => setUsername(e.target.value)} />
                             </div>
 
                             <div className="bg-white h-16 mt-8 flex text-center items-center w-[60%] text-[#2D4944] font-semibold rounded-full">
@@ -86,12 +127,15 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
                                     <RiLockPasswordFill size={20} />
                                 </div>
 
-                                <input type="password" id="search" class="text-[#2D4944] rounded-full border border-[#2D4944]
+                                <input type="password" className="text-[#2D4944] rounded-full border border-[#2D4944]
                                 pl-[100px] w-full text-sm h-full focus:border-[#507c74]" 
-                                placeholder="Password" required />
+                                placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
 
-                            <button className="bg-[#2D4944] w-[60%] h-16 mt-8 text-white rounded-full hover:bg-[#497069]">Log In</button>
+                            <button className="bg-[#2D4944] w-[60%] h-16 mt-8 text-white rounded-full hover:bg-[#497069]"
+                            onClick={handleLogIn} >
+                                Log In
+                            </button>
                         </div>
                 
                     </div>
@@ -114,9 +158,9 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
                                     <FaUser size={15} />
                                 </div>
 
-                                <input type="text" id="search" class="text-[#2D4944] rounded-full border border-[#2D4944]
+                                <input type="text" className="text-[#2D4944] rounded-full border border-[#2D4944]
                                 text-xs pl-[85px] w-full h-full focus:border-[#507c74]" 
-                                placeholder="Username" required />
+                                placeholder="Username" required value={username} onChange={(e) => setUsername(e.target.value)} />
                             </div>
 
                             <div className="bg-white h-12 mt-5 flex text-font-semibold w-[60%] rounded-full">
@@ -124,12 +168,15 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
                                     <RiLockPasswordFill size={15} />
                                 </div>
 
-                                <input type="text" id="search" class="text-[#2D4944] rounded-full border border-[#2D4944]
+                                <input type="text" className="text-[#2D4944] rounded-full border border-[#2D4944]
                                 text-xs pl-[85px] w-full h-full focus:border-[#507c74]" 
-                                placeholder="Password" required />
+                                placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
 
-                            <button className="bg-[#2D4944] w-[60%] h-12 mt-8 text-white rounded-full text-xs hover:bg-[#497069]">Log In</button>
+                            <button className="bg-[#2D4944] w-[60%] h-12 mt-8 text-white rounded-full text-xs hover:bg-[#497069]"
+                            onClick={handleLogIn} >
+                                Log In
+                            </button>
                         </div>
                 
                     </div>

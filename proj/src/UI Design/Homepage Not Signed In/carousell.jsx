@@ -103,8 +103,8 @@ const ProductCarousel = () => {
             <div className="hidden md:block lg:block xl:block 2xl:block mt-6 bg-[#DCE0DC] rounded-3xl p-10">
                 <Slider {...settings} className="">
                 {products.map((product, index) => (
-                    <div>
-                        <div className="bg-white border border-[#2D4944] rounded-2xl flex flex-col " key={index}>
+                    <div key={product.ptitle}>
+                        <div className="bg-white border border-[#2D4944] rounded-2xl flex flex-col ">
 
                         <div className="flex flex-col h-36 items-center justify-center">
                             <img className="object-cover object-center w-full h-full rounded-t-2xl" src={product.url} alt=""/>
@@ -129,8 +129,8 @@ const ProductCarousel = () => {
             <div className="sm:block md:hidden lg:hidden xl:hidden 2xl:hidden mt-6 bg-[#DCE0DC] rounded-3xl p-8">
                 <Slider {...settings} className="">
                 {products.map((product, index) => (
-                    <div>
-                        <div className="bg-white border border-[#2D4944] rounded-2xl" key={index}>
+                    <div key={product.ptitle} >
+                        <div className="bg-white border border-[#2D4944] rounded-2xl">
 
                             <div className="rounded-t-2xl flex h-36 items-center justify-center">
                                 <img className="object-cover object-center w-full h-full rounded-t-2xl" src={product.url} alt="" />
