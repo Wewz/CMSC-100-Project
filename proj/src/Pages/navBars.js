@@ -13,7 +13,9 @@ function MainNavBar({userLogged, setUserLogged, setUser, setMerchant, merchantLo
         );
     }
     else if(merchantLogged) {
-
+        <div>
+            eyeyeyeeyeyey
+        </div>
     }
     else {
         return (
