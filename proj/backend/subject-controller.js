@@ -29,11 +29,12 @@ const User = mongoose.model('Users', {
 
 const Transaction = mongoose.model('Transactions', {
 	tid: String,
-	pid: String,
-	quantity: String,
+	pid: String, 
+	quantity: Number,
 	status: Number,
 	email: String,
-	date: Date
+	date: Date,
+	time: String
 });
 
 
@@ -141,11 +142,11 @@ const addUser = async (req, res) => {
 //transactions
 
 const addTransaction = async (req, res) => {
-	const { pid, ptitle, ptype, price, quantity } = req.body
+	const { tid, pid, quantity, status, email, date, time } = req.body
 
-	const newProduct = new Product({ pid, ptitle, ptype, price, quantity })
+	const newTransaction = new Transaction({ tid, pid,quantity, status, email, date, time })
 
-	const result = await newProduct.save()
+	const result = await newTransaction.save()
 
 	if (result._id) {
 		res.send({ success: true })
@@ -154,4 +155,4 @@ const addTransaction = async (req, res) => {
 	}
 }
 
-export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser };
+export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser, addTransaction };
