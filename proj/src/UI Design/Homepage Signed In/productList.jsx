@@ -16,16 +16,61 @@ const Products = () => {
     setProducts(body)
       })
     }, [])
+    
 
 
     const [transaction, setTransaction] = useState({
         tid: "", 
         pid: "", 
-        quantity: "", 
-        status: "",
+        quantity: "",
+        status: "0",
         email: "",
 	    date: "",
+        time: ""
     });
+    const getDate= () => {
+        const date = new Date();
+        return date;
+    }
+    const getTime= () => {
+        const date = new Date();
+        const time = date.getHours() + ':' + date.getMinutes() + ":" + date.getSeconds();
+        return time;
+    }
+
+	const handleOnSubmit = async (e) => {
+        for(let i=0; i<basket.length; i++) {
+        const pid = basket[i].addedProduct.pid;
+        const tid = "1";
+        const quantity = basket[i].count;
+        const status = "0";
+        const email = "gg@g.com"
+        const time = getTime();
+        const date = getDate();
+		e.preventDefault();
+		let result = await fetch(
+		'http://localhost:3001/add-transaction', {
+			method: "post",
+			body: JSON.stringify({ tid, pid, quantity,status, email, date ,time}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		result = await result.json();
+		console.warn(result);
+        if(result.success) alert("Data saved successfully");
+        else alert(result.message)
+		if (result) {
+            setTransaction({tid: "", 
+            pid: "", 
+            quantity: "",
+            status: "0",
+            email: "",
+            date: "",
+            time: ""});
+		}
+	}}
+
 
     const [sortState, setSortState] = useState("none");
     const [basket, setBasket] = useState([]);
@@ -60,6 +105,7 @@ const Products = () => {
         setTotal(total+1);
         console.log(total);
         console.log("Added " + product.ptitle + " to the cart"); 
+        console.log(basket);
     }
 
     const remove = (p) => {
@@ -274,12 +320,12 @@ const Products = () => {
                                     <FaArrowRightLong size={15} />
                                 </button>
 
-                                <button className="bg-[#2D4944] h-12 w-full mt-4 text-white rounded-lg px-6 p-2 hover:bg-[#DCE0DC] hover:text-[#2D4944] flex justify-between content-center items-center">
-                                    Payment
-                                    <FaArrowRightLong size={15} />
-                                </button>
-                            </div>
+                            <button className="bg-[#2D4944] h-12 w-full mt-4 text-white rounded-lg px-6 p-2 hover:bg-[#DCE0DC] hover:text-[#2D4944] flex justify-between content-center items-center">
+                                Continue To Payment
+                                <FaArrowRightLong size={15} />
+                            </button>
                         </div>
+                    </div>
 
 
                     </div>
