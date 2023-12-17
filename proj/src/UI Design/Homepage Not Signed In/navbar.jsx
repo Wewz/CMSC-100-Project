@@ -69,11 +69,11 @@ const NavBarNotSigned = ({setUserLogged, setUser}) => {
                 </div>
 
                 <div className="hidden md:block lg:block xl:hidden 2xl:hidden items-center" onClick={handleNav}>
-                    {!nav ? <TiThMenu size={0}/> : <TiThMenu size={30} color='#2D4944' className="hover:bg-[#DCE0DC] rounded-full w-16 h-16 p-4" />}
+                    {!nav ? <TiThMenu className="hidden"/> : <TiThMenu size={30} color='#2D4944' className="hover:bg-[#DCE0DC] rounded-full w-16 h-16 p-4" />}
                 </div>
 
                 <div className="md:hidden lg:hidden xl:hidden sm:block 2xl:hidden items-center ml-10" onClick={handleNav}>
-                    {!nav ? <TiThMenu size={0}/> : <TiThMenu size={30} color='#2D4944' className="hover:bg-[#DCE0DC] rounded-full w-16 h-16 p-4" />}
+                    {!nav ? <TiThMenu className="hidden"/> : <TiThMenu size={30} color='#2D4944' className="hover:bg-[#DCE0DC] rounded-full w-16 h-16 p-4" />}
                 </div>
 
                 <div className={!nav ? `xl:hidden fixed right-0 top-0 w-[40%] h-full border-l border-[#2D4944] bg-white shadow-2xl` : "hidden"}>

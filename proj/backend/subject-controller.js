@@ -89,8 +89,6 @@ const deleteProduct = async (req, res) => {
 //users
 const getUser = async (req, res) => {
 	try {
-		console.log(req.body.username);
-
 		let users = await User.findOne({ username: req.body.username });
 
 		if (!users) {

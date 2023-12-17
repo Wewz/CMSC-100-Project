@@ -8,7 +8,6 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [users, setUsers] = useState([]);
     const [isLogIn, setIsLogIn] = useState(false);
   
     const handleLogIn = () => {
@@ -26,18 +25,17 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
             });
         
             if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
         
             const body = await response.json();
         
-            console.log(body);
-        
             if (body.success) {
-            console.log('User found!');
-            setUsers(body.user);
+                console.log('User found!');
+                setUser(body.user)
+                setUserLogged(true);
             } else {
-            console.log('No user found for the specified query or wrong password');
+                console.log('No user found for the specified query or wrong password');
             }
         } catch (error) {
             console.error('Fetch error:', error.message);
