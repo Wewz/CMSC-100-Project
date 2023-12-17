@@ -7,8 +7,8 @@ import { TbMinus } from "react-icons/tb";
 const Products = () => {
 
 
-    const [ products, setProducts] = useState([]);
-
+    const [ products, setProducts] = useState([])
+    //const [ greeting, setGreeting ] = useState('')
     useEffect(() => {
     fetch('http://localhost:3001/get-product')
       .then(response => response.json())
@@ -78,6 +78,23 @@ const Products = () => {
     }
 
 
+    const sortMethods = {
+        none: { method: null},
+        ascendingtype: { method: (a, b) => (a.ptype - b.ptype) },
+        descendingtype: { method: (a, b) => (b.ptype - a.ptype) },
+        ascendingquantity: { method: (a, b) => (a.quantity - b.quantity)},
+        descendingquantity: { method: (a, b) => (b.quantity - a.quantity) },
+        ascendingname: { method: (a, b) => (a.ptitle > b.ptitle ? 1 : -1)  },
+        descendingname: { method: (a, b) => (a.ptitle > b.ptitle ? -1 : 1) },
+      };
+
+    const productDisplay = (sortstate) =>{
+        if(sortstate ==="none"){
+            return [...products];
+        }else{
+            return [...products].sort(sortMethods[sortstate].method);
+        }
+    }
     return(
         <div>
 
@@ -95,15 +112,25 @@ const Products = () => {
                     <button className="bg-[#2D4944] font-bold h-10 w-24 text-sm text-white rounded-full p-1 hover:bg-[#DCE0DC] hover:text-[#2D4944]">Default</button>
                     <button className="bg-white font-bold h-10 w-24 border border-[#2D4944] text-sm text-[#2D4944] rounded-full p-1 hover:bg-[#DCE0DC] hover:text-[#2D4944]">A-Z</button>
                     <button className="bg-white font-bold h-10 w-24 border border-[#2D4944] text-sm text-[#2D4944] rounded-full p-1 hover:bg-[#DCE0DC] hover:text-[#2D4944]">Price Cost</button>
-                </div>
-            </div>
+                    <select defaultValue={'DEFAULT'} onChange={(e) => setSortState(e.target.value)}>
+                        <option value="DEFAULT" disabled>None</option>
+                        <option value="none" >Default</option>
+                        <option value="ascendingtype">Ascending by type</option>
+                        <option value="descendingtype">Descending by type</option>
+                        <option value="ascendingquantity">Ascending by quantity</option>
+                        <option value="descendingquantity">Descending by quantity</option>
+                        <option value="ascendingname">Ascending by name</option>
+                        <option value="descendingname">Descending by name</option>
+                    </select>
 
-            <div className="flex items-center justify-center w-full h-full">
-                <div className="w-[80%] mt-12 mb-24 flex">
-                    <div className="flex-wrap flex gap-x-4 gap-y-14 w-[70%] content-center">
-                        {products.map((product, index) => (
-                            <div key={product.ptitle}>
-                                <div className="bg-white border border-[#2D4944] rounded-2xl flex flex-col h-[280px] w-[280px]">
+                </div>
+
+
+            <div>
+                {
+                products.map((product, index) => (
+                        <div key={product.ptitle}>
+                            <div className="bg-white border border-[#2D4944] rounded-2xl flex flex-col ">
 
                                     <div className="flex flex-col h-36 items-center justify-center">
                                         <img className="object-cover object-center w-full h-full rounded-t-2xl" src={product.url} alt=""/>
@@ -193,12 +220,7 @@ const Products = () => {
                             </button>
                         </div>
                     </div>
-
-
                 </div>
-            </div>
-
-
         </div>
     );
 }
