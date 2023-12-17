@@ -30,7 +30,7 @@ const User = mongoose.model('Users', {
 const Transaction = mongoose.model('Transactions', {
 	tid: String,
 	pid: String,
-	oquantity: String,
+	quantity: String,
 	status: Number,
 	email: String,
 	date: Date
