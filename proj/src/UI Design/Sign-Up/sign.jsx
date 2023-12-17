@@ -16,7 +16,7 @@ function Sign() {
         username: "",
         password: "",
         type: "buyer"
-      });
+    });
 
     const [signup, setSignup] = useState(false);
 
