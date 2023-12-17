@@ -37,38 +37,34 @@ const Transaction = mongoose.model('Transactions', {
 	time: String
 });
 
-const Merchant = mongoose.model('Merchant', {
-	username: String,
+const Merchant = mongoose.model('Merchants', {
 	password: String,
-	type: Number
+	type: String,
+	username: String
 });
 
 const getMerchant = async (req, res) => {
-	try {
-		let users = await Merchant.findOne({ username: req.body.username });
+    try {
+        let users = await Merchant.findOne({ username: req.body.username });
 
-		if (!users) {
-			res.send({ success: false });
-		}
+		console.log(req.body.username)
 
-		if (users) {
-			const pass = req.body.password;
+        if (!users) {
+            return res.send({ success: false, problem: 'No merchant exist' });
+        }
 
-			if (pass === users.password) {
-				res.send({ success: true, user: users });
-			} else {
-				res.send({ success: false, problem: 'Wrong password' });
-			}
-		} else {
-			res.send({ success: false, problem: 'No Such User Exist' });
-		}
-	} catch (error) {
-		console.error('Error:', error.message);
-		res.status(500).send({ success: false, problem: 'Internal Server Error' });
-	}
-}
+        const pass = req.body.password;
 
-
+        if (pass === users.password) {
+            return res.send({ success: true, user: users });
+        } else {
+            return res.send({ success: false, problem: 'Wrong password' });
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        return res.status(500).send({ success: false, problem: 'Internal Server Error' });
+    }
+};
 
 //products
 const getProduct = async (req, res) => {
@@ -121,29 +117,35 @@ const deleteProduct = async (req, res) => {
 }
 //users
 const getUser = async (req, res) => {
-	try {
-		let users = await User.findOne({ username: req.body.username });
+    try {
+        let users = await User.findOne({ username: req.body.username });
 
-		if (!users) {
-		users = await User.findOne({ email: req.body.username });
-		}
+        if (!users) {
+            users = await User.findOne({ email: req.body.username });
+        }
 
-		if (users) {
-		const pass = req.body.password;
+        if (users) {
+            const pass = req.body.password;
 
-		if (pass === users.password) {
-			res.send({ success: true, user: users });
-		} else {
-			res.send({ success: false, problem: 'Wrong password' });
-		}
-		} else {
-		res.send({ success: false, problem: 'No Such User Exist' });
-		}
-	} catch (error) {
-		console.error('Error:', error.message);
-		res.status(500).send({ success: false, problem: 'Internal Server Error' });
-	}
+            if (pass === users.password) {
+                return res.send({ success: true, user: users });
+            } else {
+                return res.send({ success: false, problem: 'Wrong password' });
+            }
+        } else {
+            return res.send({ success: false, problem: 'No Such User Exist' });
+        }
+    } catch (error) {
+        console.error('Error:', error.message);
+        return res.status(500).send({ success: false, problem: 'Internal Server Error' });
+    }
 };
+
+const getAllUsers = async (req, res) => {
+	const products = await Users.find({});
+	console.log(products)
+	res.send(products)
+}
 
 const addUser = async (req, res) => {
 	const { fname, lname, bday, phone,
@@ -187,4 +189,4 @@ const addTransaction = async (req, res) => {
 	}
 }
 
-export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser, addTransaction, getMerchant };
+export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser, addTransaction, getMerchant, getAllUsers };

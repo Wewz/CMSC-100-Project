@@ -2,20 +2,23 @@ import React, {useState} from "react";
 
 import NavBarSigned from "../UI Design/Homepage Signed In/newNav";
 import NavBarNotSigned from "../UI Design/Homepage Not Signed In/navbar";
+import SideNav from "../UI Design/Merchantpage/sideNav";
 
-function MainNavBar({userLogged, setUserLogged, setUser, setMerchant, merchantLogged, setMerchantLogged}) {
+function MainNavBar({userLogged, setUserLogged, setUser, setMerchant, merchantLogged, setMerchantLogged, user}) {
 
     if(userLogged) {
         return (
             <div>
-                <NavBarSigned userLogged={userLogged} setUserLogged={setUserLogged} />
+                <NavBarSigned userLogged={userLogged} setUserLogged={setUserLogged} user={user} />
             </div>
         );
     }
     else if(merchantLogged) {
+        return (
         <div>
-            eyeyeyeeyeyey
+            <SideNav setMerchantLogged={setMerchantLogged} />
         </div>
+        );
     }
     else {
         return (

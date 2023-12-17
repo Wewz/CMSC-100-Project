@@ -2,15 +2,23 @@ import React, { useState } from "react";
 
 import RootNotSigned from "./RootNotSigned";
 import RootSigned from "./RootSigned";
+import DashBoard from "../UI Design/Merchantpage/dashBoard";
 
-function Home({userLogged, setUserLogged}) {
+function Home({userLogged, setUserLogged, merchantLogged, setMerchantLogged, user}) {
 
     if(userLogged) {
         return (
             <div>
-                <RootSigned />
+                <RootSigned user={user}  />
             </div>
         );
+    }
+    if(merchantLogged) {
+        return(
+        <div>
+            <DashBoard />
+        </div>)
+        ;
     }
     else {
         return (

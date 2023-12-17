@@ -16,47 +16,52 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser, setMerchant, setM
   
     const fetchUser = async () => {
         console.log(username + " " + password);
-      
+    
         try {
-            const response = await fetch('http://localhost:3001/get-user', {
+            const userResponse = await fetch('http://localhost:3001/get-user', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json',},
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ username, password }),
             });
-        
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+    
+            if (!userResponse.ok) {
+                throw new Error(`HTTP error! Status: ${userResponse.status}`);
             }
-        
-            const body = await response.json();
-        
-            if (body.success) {
+    
+            const userBody = await userResponse.json();
+    
+            if (userBody.success) {
                 console.log('User found!');
-                setUser(body.user)
+                setUser(userBody.user);
                 setUserLogged(true);
             } else {
                 console.log('No user found for the specified query or wrong password');
-
-                const response = await fetch('http://localhost:3001/get-merchant', {
+    
+                const merchantResponse = await fetch('http://localhost:3001/get-merchant', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json',},
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ username, password }),
                 });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+    
+                if (!merchantResponse.ok) {
+                    throw new Error(`HTTP error! Status: ${merchantResponse.status}`);
                 }
-
-                if (body.success) {
-                    console.log('User found!');
-                    setMerchant(body.user)
-                    setMerchantLogged(true);  
+    
+                const merchantBody = await merchantResponse.json();
+    
+                if (merchantBody.success) {
+                    console.log('Merchant found!');
+                    setMerchant(merchantBody.user);
+                    setMerchantLogged(true);
+                } else {
+                    console.log('No merchant found for the specified query or wrong password');
                 }
             }
         } catch (error) {
             console.error('Fetch error:', error.message);
         }
     };
+    
   
     useEffect(() => {
         if (isLogIn) {

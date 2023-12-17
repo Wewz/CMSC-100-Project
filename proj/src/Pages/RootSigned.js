@@ -4,11 +4,12 @@ import Banner from "../UI Design/Homepage Signed In/banner";
 import Products from "../UI Design/Homepage Signed In/productList";
 
 
-function RootSigned() {
+function RootSigned({user}) {
+
   return (
     <div>
       <Banner />
-      <Products />
+      <Products user={user}/>
     </div>
   );
 }

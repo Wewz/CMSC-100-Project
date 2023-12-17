@@ -4,6 +4,9 @@ import MainNavBar from "./Pages/navBars";
 import Footer from "./UI Design/Homepage Not Signed In/footer";
 import SignUp from "./Pages/SignUp";
 import Home from "./Pages/homePage";
+import OrderList from "./UI Design/Merchantpage/orderList";
+import UserList from "./UI Design/Merchantpage/userList";
+import SalesReport from "./UI Design/Merchantpage/salesReport";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -22,9 +25,9 @@ function App() {
   });
 
   const [merchant, setMerchant] = useState({
-    username: "",
     password: "",
-    type: ""
+    type: "",
+    username: ""
   });
 
   return (
@@ -33,15 +36,19 @@ function App() {
       <div className="">
 
         <div className="relative z-20">
-          <MainNavBar userLogged={userLogged} setUserLogged={setUserLogged} setUser={setUser} setMerchant={setMerchant} merchantLogged={merchantLogged} setMerchantLogged={setMerchantLogged} />
+          <MainNavBar userLogged={userLogged} setUserLogged={setUserLogged} setUser={setUser} setMerchant={setMerchant} merchantLogged={merchantLogged} setMerchantLogged={setMerchantLogged} user={user} />
         </div>
 
         <Routes>
-          <Route path="/" element={<Home userLogged={userLogged} setUserLogged={setUserLogged} />}></Route>
+          <Route path="/user-list" element={<UserList merchantLogged={merchantLogged} />}></Route>
+          <Route path="/order-list" element={<OrderList merchantLogged={merchantLogged} />}></Route>
+          <Route path="/sales-report" element={<SalesReport merchantLogged={merchantLogged}/>}></Route>
+
+          <Route path="/" element={<Home userLogged={userLogged} setUserLogged={setUserLogged} merchantLogged={merchantLogged} setMerchantLogged={setMerchantLogged} user={user} />}></Route>
           <Route path="/sign-up" element={<SignUp userLogged={userLogged} merchantLogged={merchantLogged} />}></Route>
         </Routes>
 
-        <Footer/>
+        <Footer merchantLogged={merchantLogged} />
 
       </div>
     </Router>

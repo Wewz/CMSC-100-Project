@@ -9,17 +9,12 @@ import { FaSearch } from "react-icons/fa";
 import { TiThMenu } from "react-icons/ti";
 import { Link } from 'react-router-dom';
 
-const NavBarSigned = ({userLogged, setUserLogged}) => {
+const NavBarSigned = ({userLogged, setUserLogged, user}) => {
 
     const [nav, setNav] = useState(false);
-    const [openLogin, setLogIn] = useState(false);
 
     const handleNav = () => {
         setNav(!nav);
-    }
-
-    const handleLogIn = () => {
-        setLogIn(true);
     }
 
     return(
@@ -81,7 +76,7 @@ const NavBarSigned = ({userLogged, setUserLogged}) => {
 
                         <li className="p-4 flex hover:text-[#77AC6F]">
                             <div className="h-10 px-5 font-bold border rounded-2xl border-[#2D4944] flex justify-center text-center items-center">
-                                <h1>Username</h1>
+                                <h1>{user.username}</h1>
                                 <FaUserCircle size={20} className="ml-2" />
                                 <GiHamburgerMenu size={20} className="ml-4" />
                             </div>
@@ -110,7 +105,7 @@ const NavBarSigned = ({userLogged, setUserLogged}) => {
                         <li className="p-4 flex justify-center items-center text-center">
                             <div className="w-[85%] text-[#2D4944] pb-6 border-b border-[#2D4944] px-5 text-xl font-bold flex flex-col justify-center text-center items-center">
                                 <FaUserCircle size={120} className="" />
-                                <h1 className="mt-2">Username</h1>
+                                <h1 className="mt-2">{user.username}</h1>
                             </div>
                         </li>
                         <li className="py-4 pl-2 flex ml-8 w-28 text-[#2D4944] hover:text-[#77AC6F]">
@@ -126,7 +121,8 @@ const NavBarSigned = ({userLogged, setUserLogged}) => {
                             Basket
                         </li>
 
-                        <li className="py-4 pl-2 flex ml-8 w-36 text-[#2D4944] hover:text-[#77AC6F]">
+                        <li className="py-4 pl-2 flex ml-8 w-36 text-[#2D4944] hover:text-[#77AC6F] cursor-pointer"
+                        onClick={(e) => setUserLogged(false)}>
                             <RiLogoutBoxRFill size={20} className="mr-2"/>
                             Log Out
                         </li>
