@@ -1,4 +1,4 @@
-import { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct, getUser, addUser } from './subject-controller.js';
+import { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct, getUser, addUser, getMerchant } from './subject-controller.js';
 
 export default function router(app) {
 
@@ -18,5 +18,6 @@ export default function router(app) {
   app.post("/delete-product", deleteProduct);
   app.post("/add-user", addUser);
   app.post("/get-user", getUser);
+  app.post("/get-merchant", getMerchant);
 
 }

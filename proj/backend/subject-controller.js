@@ -36,6 +36,38 @@ const Transaction = mongoose.model('Transactions', {
 	date: Date
 });
 
+const Merchant = mongoose.model('Merchant', {
+	username: String,
+	password: String,
+	type: Number
+});
+
+const getMerchant = async (req, res) => {
+	try {
+		let users = await Merchant.findOne({ username: req.body.username });
+
+		if (!users) {
+			res.send({ success: false });
+		}
+
+		if (users) {
+			const pass = req.body.password;
+
+			if (pass === users.password) {
+				res.send({ success: true, user: users });
+			} else {
+				res.send({ success: false, problem: 'Wrong password' });
+			}
+		} else {
+			res.send({ success: false, problem: 'No Such User Exist' });
+		}
+	} catch (error) {
+		console.error('Error:', error.message);
+		res.status(500).send({ success: false, problem: 'Internal Server Error' });
+	}
+}
+
+
 
 //products
 const getProduct = async (req, res) => {
@@ -154,4 +186,4 @@ const addTransaction = async (req, res) => {
 	}
 }
 
-export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser };
+export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser, getMerchant };

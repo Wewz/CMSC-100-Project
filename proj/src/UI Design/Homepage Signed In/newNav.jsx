@@ -74,7 +74,7 @@ const NavBarSigned = ({userLogged, setUserLogged}) => {
                             Basket
                         </li>
 
-                        <li className="p-4 flex hover:text-[#77AC6F]">
+                        <li className="p-4 flex hover:text-[#77AC6F] cursor-pointer" onClick={(e) => setUserLogged(false)}>
                             <RiLogoutBoxRFill size={20} className="mr-2"/>
                             Log Out
                         </li>

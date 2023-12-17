@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
-const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
+const LogIn = ({openLogin, closeLogin, setUserLogged, setUser, setMerchant, setMerchantLogged}) => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -19,9 +19,9 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
       
         try {
             const response = await fetch('http://localhost:3001/get-user', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json',},
-            body: JSON.stringify({ username, password }),
+                method: 'POST',
+                headers: {'Content-Type': 'application/json',},
+                body: JSON.stringify({ username, password }),
             });
         
             if (!response.ok) {
@@ -36,6 +36,13 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser}) => {
                 setUserLogged(true);
             } else {
                 console.log('No user found for the specified query or wrong password');
+
+                const response = await fetch('http://localhost:3001/get-user', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json',},
+                    body: JSON.stringify({ username, password }),
+                });
+
             }
         } catch (error) {
             console.error('Fetch error:', error.message);

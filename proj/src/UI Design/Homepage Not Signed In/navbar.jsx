@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import LogIn from '../log-in/logIn';
 
-const NavBarNotSigned = ({setUserLogged, setUser}) => {
+const NavBarNotSigned = ({setUserLogged, setUser, setMerchant, setMerchantLogged}) => {
 
     const [nav, setNav] = useState(false);
     const [openLogin, setLogIn] = useState(false);
@@ -115,7 +115,7 @@ const NavBarNotSigned = ({setUserLogged, setUser}) => {
 
             </div>
 
-            <LogIn openLogin={openLogin} closeLogin={() => setLogIn(false)} setUserLogged={setUserLogged} setUser={setUser} />
+            <LogIn openLogin={openLogin} closeLogin={() => setLogIn(false)} setUserLogged={setUserLogged} setUser={setUser} setMerchant={setMerchant} setMerchantLogged={setMerchantLogged} />
         </Fragment>
     );
 }

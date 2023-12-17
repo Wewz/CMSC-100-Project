@@ -24,6 +24,8 @@ function Sign() {
         e.preventDefault();
 
         const {fname, lname, bday, phone, hNum, subd, brg, muni, prov, email, username, password, type } = user;
+
+        if(username.localeCompare("admin") == 0) throw new Error("Failed to save data");
     
         try {
             const result = await fetch('http://localhost:3001/add-user', {
