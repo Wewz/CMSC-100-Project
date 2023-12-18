@@ -142,10 +142,38 @@ const getUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-	const products = await Users.find({});
-	console.log(products)
-	res.send(products)
-}
+	try {
+	  const users = await User.find({});
+	  console.log(users);
+	  res.send(users);
+	} catch (error) {
+	  console.error("Error fetching users:", error.message);
+	  res.status(500).send("Internal Server Error");
+	}
+  }
+
+  const getTransaction = async (req, res) => {
+	try {
+	  const orders = await Transaction.find({status: 0});
+	  console.log(orders);
+	  res.send(orders);
+	} catch (error) {
+	  console.error("Error fetching users:", error.message);
+	  res.status(500).send("Internal Server Error");
+	}
+  }
+
+  const getSales = async (req, res) => {
+	try {
+	  const orders = await Transaction.find({status: 1});
+	  console.log(orders);
+	  res.send(orders);
+	} catch (error) {
+	  console.error("Error fetching users:", error.message);
+	  res.status(500).send("Internal Server Error");
+	}
+  }
+  
 
 const addUser = async (req, res) => {
 	const { fname, lname, bday, phone,
@@ -189,4 +217,4 @@ const addTransaction = async (req, res) => {
 	}
 }
 
-export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser, addTransaction, getMerchant, getAllUsers };
+export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser, addTransaction, getMerchant, getAllUsers, getTransaction, getSales };
