@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ProductTitle from './productTitle';
 import Product from './product';
 import Cart from './cart';
+import CurrentCart from './currentCart';
 
 const Products = ({user}) => {
 
@@ -12,14 +13,13 @@ const Products = ({user}) => {
         .then(response => response.json())
         .then(body => {setProducts(body)})
     }, [])
-    
+
+    const [seeCart, setSeeCart] = useState(false);
     const [empty, setEmpty] = useState(true);
     const [sortState, setSortState] = useState("none");
     const [basket, setBasket] = useState([]);
     const [total, setTotal] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
-
-
 
     const addCart = (product) => {
 
@@ -53,8 +53,10 @@ const Products = ({user}) => {
 
     const remove = (p) => {
 
-        if(total === 1) setEmpty(true);
-
+        if(total === 1) {
+            setEmpty(true);
+            setSeeCart(false);
+        }
         setTotal(total-1);
         p.count -= 1;
 
@@ -63,6 +65,21 @@ const Products = ({user}) => {
         }
 
         setTotalCost(totalCost - p.addedProduct.price);
+
+        console.log("Remove " + p.addedProduct.ptitle + " " + p.key);
+    }
+
+    const removeProduct = (p) => {
+        if(total === 1) {
+            setEmpty(true);
+            setSeeCart(false);
+        }
+
+        setTotal(total-p.count);
+
+        setBasket(basket.filter(a => a.key !== p.key));
+
+        setTotalCost(totalCost - (p.addedProduct.price * p.count));
 
         console.log("Remove " + p.addedProduct.ptitle + " " + p.key);
     }
@@ -80,13 +97,15 @@ const Products = ({user}) => {
                         
                         <Product sortState={sortState} products={products} addCart={addCart}  />
 
-                        <Cart addCart={addCart} basket={basket} remove={remove} empty={empty} totalCost={totalCost} user={user} />
+                        <Cart addCart={addCart} basket={basket} remove={remove} empty={empty} totalCost={totalCost} user={user} setSeeCart={setSeeCart} />
 
                     </div>
                 </div>
+
+
             </div>
 
-
+            <CurrentCart seeCart={seeCart} setSeeCart={setSeeCart} basket={basket} total={total} addCart={addCart} remove={remove} totalCost={totalCost} removeProduct={removeProduct} />
 
         </div>
     );

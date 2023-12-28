@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaWindowClose } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { IoCloseCircle } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 
 const LogIn = ({openLogin, closeLogin, setUserLogged, setUser, setMerchant, setMerchantLogged}) => {
@@ -79,8 +80,8 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser, setMerchant, setM
 
                     <div onClick={(e) => e.stopPropagation()} className="w-[40%] h-[550px] hidden xl:block 2xl:block bg-white rounded-3xl drop-shadow-3xl">
 
-                        <div className="text-[#c8cbc8] hover:text-[#2D4944] flex justify-end text-right mt-4 mr-4">
-                            <FaWindowClose size={50} onClick={closeLogin} />
+                        <div className="flex justify-end text-right mt-4 mr-4">
+                            <IoCloseCircle size={50} onClick={closeLogin} className="text-[#c8cbc8] hover:text-[#2D4944]" />
                         </div>
 
                         <div className="flex flex-col items-center text-center justify-center">

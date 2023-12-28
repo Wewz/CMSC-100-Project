@@ -1,6 +1,5 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 
-import { FaCartShopping } from "react-icons/fa6";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
@@ -8,6 +7,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { TiThMenu } from "react-icons/ti";
 import { Link } from 'react-router-dom';
+import { FaHistory } from "react-icons/fa";
 
 const NavBarSigned = ({userLogged, setUserLogged, user}) => {
 
@@ -17,77 +17,8 @@ const NavBarSigned = ({userLogged, setUserLogged, user}) => {
         setNav(!nav);
     }
 
-    return(
-        <Fragment>
-
-             <div className="bg-transparent flex justify-between px-[10%] py-3 mx-auto">
-
-                
-                <div className="flex items-center">
-                    <img className="w-16 h-16" src={require('../assets/DA_Logo.png')} alt="Logo" />
-
-                    <h1 className="text-[#2D4944] p-4 font-bold text-3xl">Cultivate
-                        <span className="text-[#77AC6F]">
-                            Cart
-                        </span>
-                    </h1>
-                </div>
-
-                <div className="h-16 mt-1 w-[20%] hidden 2xl:flex justify-center text-center items-center">
-                    <button type="submit" className="absolute px-6 py-2 h-10 mr-[240px] text-white bg-[#2D4944] rounded-full 
-                        hover:bg-[#77AC6F]">
-                        <FaSearch size={15} />
-                    </button>
-
-                    <input type="text" className="bg-white border border-[#2D4944] text-[#2D4944] text-sm rounded-full
-                        pl-[25%] h-10 focus:border-[#507c74] w-full" 
-                        placeholder="Search product name..." required />
-                </div>
-
-                <div className="h-16 mt-1 w-[15%] hidden xl:flex 2xl:hidden justify-center text-center items-center">
-                    <button type="submit" className="absolute px-4 py-1 h-8 mr-[150px] text-white bg-[#2D4944] rounded-full 
-                        hover:bg-[#77AC6F]">
-                        <FaSearch size={10} />
-                    </button>
-
-                    <input type="text" className="bg-white border border-[#2D4944] text-[#2D4944] text-xs rounded-full
-                        pl-[25%] pr-2 h-8 focus:border-[#507c74] w-full truncate" 
-                        placeholder="Search product name..." required />
-                </div>
-
-                <div className="hidden xl:flex">
-                    <ul className="flex items-center text-[#2D4944] font-semibold">
-                        <li className="p-4 flex hover:text-[#77AC6F]"> 
-                            <Link to="/" className="flex">
-                                <FaHome size={20} className="mr-2"/> 
-                                Home
-                            </Link>
-                        </li>
-
-                        <li className="p-4 flex hover:text-[#77AC6F]">
-                            <FaCartShopping size={20} className="mr-2"/>
-                            Basket
-                        </li>
-
-                        <li className="p-4 flex hover:text-[#77AC6F] cursor-pointer" onClick={(e) => setUserLogged(false)}>
-                            <RiLogoutBoxRFill size={20} className="mr-2"/>
-                            Log Out
-                        </li>
-
-                        <li className="p-4 flex hover:text-[#77AC6F]">
-                            <div className="h-10 px-5 font-bold border rounded-2xl border-[#2D4944] flex justify-center text-center items-center">
-                                <h1>{user.username}</h1>
-                                <FaUserCircle size={20} className="ml-2" />
-                                <GiHamburgerMenu size={20} className="ml-4" />
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-
-
-
-
+    /*
+    
                 <div className="sm:block md:block lg:block xl:hidden 2xl:hidden items-center" onClick={handleNav}>
                     {!nav ? <TiThMenu className="hidden"/> : <TiThMenu size={30} color='#2D4944' className="hover:bg-[#DCE0DC] rounded-full w-16 h-16 p-4" />}
                 </div>
@@ -117,8 +48,8 @@ const NavBarSigned = ({userLogged, setUserLogged, user}) => {
 
                         <li className="py-4 pl-2 flex ml-8 w-32 text-[#2D4944] hover:text-[#77AC6F]">
 
-                            <FaCartShopping size={20} className="mr-2"/>
-                            Basket
+                            <FaHistory size={20} className="mr-2"/>
+                            Transaction
                         </li>
 
                         <li className="py-4 pl-2 flex ml-8 w-36 text-[#2D4944] hover:text-[#77AC6F] cursor-pointer"
@@ -141,11 +72,111 @@ const NavBarSigned = ({userLogged, setUserLogged, user}) => {
                         </li>
                     </ul>
                 </div>
+    */
+
+    const [ products, setProducts] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/get-product')
+        .then(response => response.json())
+        .then(body => {setProducts(body)})
+    }, [])
+
+    const [search, setSearch] = useState([]);
+
+    const handleSearch = (e) => {
+        const searchQuery = e.target.value.toLowerCase();
+    
+        if (searchQuery === '') {
+            setSearch([]);
+            return false;
+        }
+    
+        setSearch(products.filter(product => product.ptitle.toLowerCase().includes(searchQuery)).slice(0, 8));
+    }
+
+    const setSearchText = (title) => {
+        setSearch([]);
+
+        document.getElementById('search-product').value = title;
+    }
+    
+
+    return(
+        <Fragment>
+
+             <div className="bg-transparent flex justify-between px-[10%] py-3 mx-auto">
+                
+                <div className="flex items-center">
+                    <img className="w-16 h-16" src={require('../assets/DA_Logo.png')} alt="Logo" />
+
+                    <h1 className="text-[#2D4944] p-4 font-bold text-3xl">Cultivate
+                        <span className="text-[#77AC6F]">
+                            Cart
+                        </span>
+                    </h1>
+                </div>
+
+                <div className="w-[25%] relative">
+                    <div className=" relative h-16 mt-1 w-full flex justify-center text-center items-center">
+                        <button type="submit" className="absolute px-4 py-1 w-20 h-12 mr-[150px] text-white bg-[#2D4944] rounded-full 
+                            hover:bg-[#77AC6F] flex justify-center items-center left-0">
+                            <FaSearch size={17} />
+                        </button>
+
+                        <input id="search-product" type="text" className="bg-white border border-[#2D4944] text-[#2D4944] text-sm rounded-full
+                            pl-[25%] pr-2 h-12 focus:border-[#507c74] w-full truncate" 
+                            placeholder="Search product..."  onChange={(e) => handleSearch(e)} />
+                    </div>
+
+                    {
+                        search.length > 0 && (
+                            <div className="absolute flex flex-col bg-white border border-[#2D4944] rounded-2xl w-full gap-1 text-[#2D4944] text-[15px]">
+                                {
+                                    search.map(s => (
+                                        <span className="hover:bg-[#e1e3e1] py-2 px-4 rounded-2xl cursor-pointer" onClick={(e) => setSearchText(s.ptitle)} >{s.ptitle}</span>
+                                    ))
+                                }
+                            </div>
+                        )
+                    }
+
+                </div>
 
 
+                <div className="flex">
+                    <ul className="flex items-center text-[#2D4944] font-semibold">
+                        <li className="p-4 flex hover:text-[#77AC6F]"> 
+                            <Link to="/" className="flex">
+                                <FaHome size={20} className="mr-2"/> 
+                                Home
+                            </Link>
+                        </li>
 
+                        <li className="p-4 flex hover:text-[#77AC6F]">
+                            <FaHistory size={20} className="mr-2"/>
+                            Transaction
+                        </li>
+
+                        <li className="p-4 flex hover:text-[#77AC6F] cursor-pointer" onClick={(e) => setUserLogged(false)}>
+                            <RiLogoutBoxRFill size={20} className="mr-2"/>
+                            Log Out
+                        </li>
+
+                        <li className="p-4 flex hover:text-[#77AC6F]">
+                            <div className="h-10 px-5 font-bold border rounded-2xl border-[#2D4944] flex justify-center text-center items-center">
+                                <h1>{user.username}</h1>
+                                <FaUserCircle size={20} className="ml-2" />
+                                <GiHamburgerMenu size={20} className="ml-4" />
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
 
             </div>
+
+            
 
         </Fragment>
     );

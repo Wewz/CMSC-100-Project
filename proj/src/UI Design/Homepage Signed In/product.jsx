@@ -43,7 +43,7 @@ const Product = ({sortState, products, addCart}) => {
 
                         <button className="bg-[#2D4944] h-12 w-full mt-4 text-white rounded-lg px-6 p-2 hover:bg-[#DCE0DC] hover:text-[#2D4944]"
                         onClick={(e) => addCart(product)} >
-                            Buy Now
+                            Add To Basket
                         </button>
                     </div>
                 ))}
