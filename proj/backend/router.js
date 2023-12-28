@@ -1,4 +1,4 @@
-import { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct, getUser, addUser, addTransaction, getMerchant, getAllUsers, getTransaction, getSales} from './subject-controller.js';
+import { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct, getUser, addUser, addTransaction, getMerchant, getAllUsers, getTransaction, getSales, saveBasket, getBasket, deleteBasket, getTransactionAll } from './subject-controller.js';
 
 export default function router(app) {
 
@@ -13,7 +13,7 @@ export default function router(app) {
   
 	app.get("/get-product", getProduct);
   app.post("/greet-by-post", greetByPOST);
-  app.get("/get-product-by-code", getProductByID);
+  app.get("/get-product-by-code/:pid", getProductByID);
   app.post("/add-product", addProduct);
   app.post("/delete-product", deleteProduct);
   app.post("/add-user", addUser);
@@ -23,4 +23,8 @@ export default function router(app) {
   app.get("/get-all-users", getAllUsers);
   app.get("/get-transaction", getTransaction);
   app.get("/get-sales", getSales);
+  app.post("/save-basket", saveBasket);
+  app.get('/getBasket/:username/:email', getBasket);
+  app.post('/delete-basket', deleteBasket);
+  app.get('/get-transaction-all/:email', getTransactionAll);
 }

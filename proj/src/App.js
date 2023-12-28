@@ -7,6 +7,7 @@ import Home from "./Pages/homePage";
 import OrderList from "./UI Design/Merchantpage/orderList";
 import UserList from "./UI Design/Merchantpage/userList";
 import SalesReport from "./UI Design/Merchantpage/salesReport";
+import TransactionPage from "./Pages/transaction";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -46,6 +47,8 @@ function App() {
 
           <Route path="/" element={<Home userLogged={userLogged} setUserLogged={setUserLogged} merchantLogged={merchantLogged} setMerchantLogged={setMerchantLogged} user={user} />}></Route>
           <Route path="/sign-up" element={<SignUp userLogged={userLogged} merchantLogged={merchantLogged} />}></Route>
+
+          <Route path="/transaction" element={<TransactionPage userLogged={userLogged} user={user} />}></Route>
         </Routes>
 
         <Footer merchantLogged={merchantLogged} />

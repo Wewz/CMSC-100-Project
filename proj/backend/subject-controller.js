@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 await mongoose.connect('mongodb://127.0.0.1:27017/FarmToTable')
 
-const Product = mongoose.model('Products', {
+const productSchema = new mongoose.Schema({
 	pid: String,
 	ptitle: String,
 	ptype: Number,
@@ -10,6 +10,8 @@ const Product = mongoose.model('Products', {
 	quantity: Number,
 	url: String
 });
+
+const Product = mongoose.model('Products', productSchema);
 
 const User = mongoose.model('Users', {
 	fname: String,
@@ -29,7 +31,7 @@ const User = mongoose.model('Users', {
 
 const Transaction = mongoose.model('Transactions', {
 	tid: String,
-	pid: String, 
+	product: productSchema, 
 	quantity: Number,
 	status: Number,
 	email: String,
@@ -43,6 +45,83 @@ const Merchant = mongoose.model('Merchants', {
 	username: String
 });
 
+const productListSchema = new mongoose.Schema({
+	count: Number,
+	key: String,
+	addedProduct: productSchema
+});
+
+const basketSchema = new mongoose.Schema({
+	username: { type: String, required: true },
+	email: { type: String, required: true },
+	product: [productListSchema],
+  });
+
+const Basket = mongoose.model('Baskets', basketSchema);
+
+// basket
+const saveBasket = async (req, res) => {
+	try {
+	  const { username, email, product } = req.body;
+  
+	  console.log("Basket Yeyeyeye");
+	  console.log(product);
+  
+	  // Use findOneAndUpdate
+	  const existingBasket = await Basket.findOneAndUpdate(
+		{ username, email },
+		{ $set: { product } },
+		{ new: true, upsert: true, setDefaultsOnInsert: true }
+	  );
+  
+	  if (existingBasket) {
+		res.send({ success: true, basket: existingBasket });
+	  } else {
+		res.send({ success: false });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).send({ success: false, error: 'Internal Server Error' });
+	}
+};
+
+const deleteBasket = async (req, res) => {
+	try {
+	  const { username, email } = req.body;
+  
+	  // Use findOneAndDelete to find and remove the basket
+	  const deletedBasket = await Basket.findOneAndDelete({ username, email });
+  
+	  if (deletedBasket) {
+		res.send({ success: true, message: 'Basket deleted successfully' });
+	  } else {
+		res.send({ success: false, message: 'Basket not found or already deleted' });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).send({ success: false, error: 'Internal Server Error' });
+	}
+  };
+
+const getBasket = async (req, res) => {
+	try {
+	  const { username, email } = req.params;
+  
+	  const foundBasket = await Basket.findOne({ username, email });
+  
+	  if (foundBasket) {
+		res.json({ success: true, basket: foundBasket });
+	  } else {
+		res.json({ success: false, message: 'Basket not found' });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ success: false, error: 'Internal Server Error' });
+	}
+  };
+  
+
+// merchant
 const getMerchant = async (req, res) => {
     try {
         let users = await Merchant.findOne({ username: req.body.username });
@@ -83,9 +162,19 @@ const greetByPOST = async (req, res) => {
 
 // get product by id
 const getProductByID = async (req, res) => {
-	const product = await Subject.findOne({ code: req.query.pid })
-	res.send(product)
-}
+	try {
+	  const product = await Product.findOne({ pid: req.query.pid });
+  
+	  if (transactions.length > 0) {
+		return res.json({ success: true, product: product });
+	  } else {
+		return res.json({ success: false, problem: 'No Existing Transaction' });
+	  }
+	} catch (error) {
+	  console.error('Error:', error.message);
+	  return res.status(500).json({ success: false, problem: 'Internal Server Error' });
+	}
+  };
 
 // save new product
 const addProduct = async (req, res) => {
@@ -180,11 +269,17 @@ const addUser = async (req, res) => {
 	hNum, subd, brg, muni, prov,
 	email, username, password, type } = req.body;
 	
-		const existingUser = await User.findOne({ username: username });
+	const existingUser = await User.findOne({ username: username });
 
-		if (existingUser) {
-			res.send({ success: false, message: 'Username already exists.' });
-		} else {
+	const existingEmail = await User.findOne({ email: email });
+
+	if (existingUser) {
+		res.send({ success: false, message: 'Username already exists.' });
+	} 
+	else if(existingEmail) {
+		res.send({ success: false, message: 'Email already exists.' });
+	}
+	else {
 		const newUser = new User({
 			fname, lname, bday, phone,
 			hNum, subd, brg, muni, prov,
@@ -204,9 +299,9 @@ const addUser = async (req, res) => {
 //transactions
 
 const addTransaction = async (req, res) => {
-	const { tid, pid, quantity, status, email, date, time } = req.body
+	const { tid, product, quantity, status, email, date, time } = req.body
 
-	const newTransaction = new Transaction({ tid, pid,quantity, status, email, date, time })
+	const newTransaction = new Transaction({ tid, product,quantity, status, email, date, time })
 
 	const result = await newTransaction.save()
 
@@ -217,4 +312,19 @@ const addTransaction = async (req, res) => {
 	}
 }
 
-export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser, addTransaction, getMerchant, getAllUsers, getTransaction, getSales };
+const getTransactionAll = async (req, res) => {
+	try {
+	  const transactions = await Transaction.find({ email: req.params.email });
+  
+	  if (transactions.length > 0) {
+		return res.json({ success: true, transactions: transactions });
+	  } else {
+		return res.json({ success: false, problem: 'No Existing Transaction' });
+	  }
+	} catch (error) {
+	  console.error('Error:', error.message);
+	  return res.status(500).json({ success: false, problem: 'Internal Server Error' });
+	}
+  };
+
+export { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct,getUser, addUser, addTransaction, getMerchant, getAllUsers, getTransaction, getSales, saveBasket, getBasket, deleteBasket, getTransactionAll };

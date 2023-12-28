@@ -6,11 +6,11 @@ import { RiShoppingBasketLine } from "react-icons/ri";
 import { FaCartShopping } from "react-icons/fa6";
 import { v4 as uuidv4 } from 'uuid';
 
-const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart}) => {
+const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart, emptyBasket}) => {
 
     const [transaction, setTransaction] = useState({
         tid: "", 
-        pid: "", 
+        product: {}, 
         quantity: "",
         status: "0",
         email: "",
@@ -42,7 +42,7 @@ const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart}) => 
     
         for (let i = 0; i < basket.length; i++) {
 
-            const pid = basket[i].addedProduct.pid;
+            const product = basket[i].addedProduct;
             const tid = getTransactionID();
             const quantity = basket[i].count;
             const status = "0";
@@ -53,7 +53,7 @@ const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart}) => 
             try {
                 let result = await fetch('http://localhost:3001/add-transaction', {
                     method: "post",
-                    body: JSON.stringify({ tid, pid, quantity, status, email, date, time }),
+                    body: JSON.stringify({ tid, product, quantity, status, email, date, time }),
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -76,56 +76,10 @@ const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart}) => 
                 alert('Error occurred while saving data');
             }
         }
+
+        emptyBasket();
+
     };
-
-    /*
-        <div className="flex-col gap-y-2 my-3 border-b border-[#2D4944] pb-4 flex">
-            {
-                basket.map((p) => (
-                    <div key={p.key} className="flex justify-between px-4">
-                        
-                        <div className="w-[50%] truncate">
-                            <p className="truncate">{p.addedProduct.ptitle}</p>
-                        </div>
-
-                        <div className="flex w-[50%] justify-between">
-
-                            <div className="flex text-sm mr-2"> 
-                                <button className="bg-[#2D4944] text-white rounded-l-md p-1 hover:bg-[#77AC6F]"
-                                onClick={(e) => remove(p)} >
-                                    <TbMinus size={15} />
-                                </button>
-
-                                <p className="px-2 w-10 flex justify-center items-center text-center border-y border-[#2D4944] border-opacity-40">{p.count}</p>
-
-                                <button className="bg-[#2D4944] text-white rounded-r-md p-1 hover:bg-[#77AC6F]"
-                                onClick={(e) => addCart(p.addedProduct)} >
-                                    <HiPlusSm size={15} />
-                                </button>
-                            </div>
-
-                            <p>₱{p.addedProduct.price}</p>
-                        </div>
-                    </div>
-                ))
-            }
-        </div> 
-
-
-
-
-
-        {!empty ?
-                    <div className="my-6">
-
-                    </div>
-                    :
-                    <div className="flex flex-col justify-center items-center text-center my-10 text-[#b1b1b1]">
-                        <RiShoppingBasketLine size={100}/>
-                        <p className="font-semibold text-xl text-[#b1b1b1]">Empty basket</p>
-                    </div>
-                }
-    */
 
     return(
 

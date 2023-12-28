@@ -1,5 +1,6 @@
 import express from 'express';
 import router from './router.js';
+import cors from 'cors';
 
 // Initialize server
 const app = express();
@@ -7,7 +8,7 @@ const app = express();
 // Plugin for reading JSON payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cors());
 // Import router
 router(app);
 
