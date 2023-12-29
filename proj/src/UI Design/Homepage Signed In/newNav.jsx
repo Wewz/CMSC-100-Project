@@ -7,6 +7,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { TiThMenu } from "react-icons/ti";
 import { Link } from 'react-router-dom';
 import { FaHistory } from "react-icons/fa";
+import { FaShoppingBasket } from "react-icons/fa";
 
 const NavBarSigned = ({userLogged, setUserLogged, user}) => {
 
@@ -92,8 +93,8 @@ const NavBarSigned = ({userLogged, setUserLogged, user}) => {
                     <ul className="flex items-center text-[#2D4944] font-semibold">
                         <li className="p-4 flex hover:text-[#77AC6F]"> 
                             <Link to="/" className="flex">
-                                <FaHome size={20} className="mr-2"/> 
-                                Home
+                                <FaShoppingBasket size={20} className="mr-2"/> 
+                                Products
                             </Link>
                         </li>
 

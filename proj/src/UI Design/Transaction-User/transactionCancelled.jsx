@@ -2,24 +2,24 @@ import React, { useState, useEffect } from "react";
 import { ImFilesEmpty } from "react-icons/im";
 import PaginationButtons from "../pagination/paginationButton";
 
-const TransactionPending = ({user, transactions, setTransactions}) => {
+const TransactionCancelled = ({user, transactions, setTransactions}) => {
 
     const [pageCount, setPageCount] = useState(0);
     const [transactionPage, setTransactionPage] = useState([]);
     const [pageStart, setPageStart] = useState(0);
     const [pageEnd, setPageEnd] = useState(5);
 
-    const fetchTransactionsStatus = async () => {
+    const fetchCancelledTransactions = async () => {
 
-        var status = 0
+        var status1 = -1;
+        var status2 = -2
 
         try {
-            const response = await fetch(`http://localhost:3001/get-transaction-status/${user.email}/${status}`);
+            const response = await fetch(`http://localhost:3001/get-cancelled-transaction/${user.email}/${status1}/${status2}`);
             const body = await response.json();
 
             if(body.success) setTransactions(body.transactions);
             else setTransactions([]);
-
         } catch (error) {
             console.error('Error fetching transactions:', error);
         }
@@ -27,7 +27,7 @@ const TransactionPending = ({user, transactions, setTransactions}) => {
 
     useEffect(() => {
 
-        fetchTransactionsStatus();
+        fetchCancelledTransactions();
 
     }, []);
 
@@ -41,35 +41,18 @@ const TransactionPending = ({user, transactions, setTransactions}) => {
         setTransactionPage(transactions.slice(pageStart, pageEnd));
     }, [pageStart, pageEnd]);
 
-    const handleCancelTransaction = async (transaction) => {
-        const tid = transaction.tid;
-    
-        console.log(tid);
-    
-        try {
-            const response = await fetch('http://localhost:3001/update-transaction-status', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tid, newStatus: -2 }),
-            });
-    
-            const data = await response.json();
-    
-            console.log(data.message);
-            
-            if(!data.success) return;
+    const getStatus = (status) => {
 
-            fetchTransactionsStatus();
 
-        } catch (error) {
-            console.error('Error updating transaction status:', error);
+        if(status === -1) {
+            return "Cancelled By Admin";
         }
-    };
+        else {
+            return "Cancelled By User";
+        }
+    }
 
     const handlePageClick = (event) => {
-
-        console.log("EHHHHHHHHHHHHHHHHHHHHHH  " + event.selected);
-
         setPageEnd((event.selected + 1) * 5);
         setPageStart(((event.selected + 1) * 5) - 5);
     }
@@ -109,7 +92,7 @@ const TransactionPending = ({user, transactions, setTransactions}) => {
 
                                 <div className="flex flex-col font-bold text-sm justify-center items-center w-[12.5%]">
                                     <p className="text-[#b1b1b1]">Status:</p>
-                                    <p className="text-[#2D4944] text-base">Pending</p>
+                                    <p className="text-[#2D4944] text-base">Cancelled</p>
                                 </div>
 
                                 <div className="flex flex-col font-bold text-sm justify-center items-center w-[12.5%]">
@@ -118,10 +101,8 @@ const TransactionPending = ({user, transactions, setTransactions}) => {
                                 </div>
 
                                 <div className="flex flex-col font-bold text-sm justify-center items-center w-[12.5%]">
-                                    <button className="bg-[#2D4944] text-white p-4 rounded-xl hover:bg-[#69978e]"
-                                    onClick={(e) => handleCancelTransaction(transaction)} >
-                                        Cancel
-                                    </button>
+                                    <p className="text-[#b1b1b1]">Reason:</p>
+                                    <p className="text-[#2D4944] text-base">{getStatus(transaction.status)}</p>
                                 </div>
                             
                             
@@ -140,4 +121,4 @@ const TransactionPending = ({user, transactions, setTransactions}) => {
     );
 }
 
-export default TransactionPending;
+export default TransactionCancelled;

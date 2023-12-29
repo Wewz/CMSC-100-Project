@@ -109,7 +109,7 @@ const Products = ({user}) => {
           console.log(data.message);
 
         } catch (error) {
-          console.error('Error deleting basket:', error);
+            console.error('Error deleting basket:', error);
         }
     };
 
