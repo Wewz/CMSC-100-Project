@@ -1,8 +1,8 @@
-import connectDB from './subject-controller.js';
-import User from './userModel.js';
-import Transaction from './transactionModel.js';
+import mongoDB from '../MainController/subject-controller.js';
+import User from '../Models/userModel.js';
+import Transaction from '../Models/transactionModel.js';
 
-connectDB();
+mongoDB();
 
 //users
 const getUser = async (req, res) => {
@@ -95,4 +95,4 @@ const addUser = async (req, res) => {
 	}
 }
 
-export default { getUser, getAllUsers, getTransaction, getSales, addUser };
+export { getUser, getAllUsers, getTransaction, getSales, addUser };

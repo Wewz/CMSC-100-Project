@@ -1,7 +1,7 @@
-import connectDB from './subject-controller.js';
-import Transaction from './transactionModel.js';
+import mongoDB from '../MainController/subject-controller.js';
+import Transaction from '../Models/transactionModel.js';
 
-connectDB();
+mongoDB();
 
 //transactions
 const addTransaction = async (req, res) => {
@@ -103,4 +103,4 @@ const getCancelledTransactions = async (req, res) => {
     }
 };
 
-export default { addTransaction, getTransactionAll, getTransactionStatus, deleteTransaction, updateTransactionStatus, getCancelledTransactions };
+export { addTransaction, getTransactionAll, getTransactionStatus, deleteTransaction, updateTransactionStatus, getCancelledTransactions };

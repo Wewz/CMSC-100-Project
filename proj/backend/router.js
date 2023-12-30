@@ -1,4 +1,8 @@
-import { getProduct, greetByPOST, getProductByID, addProduct, deleteProduct, getUser, addUser, addTransaction, getMerchant, getAllUsers, getTransaction, getSales, saveBasket, getBasket, deleteBasket, getTransactionAll, deleteTransaction, getTransactionStatus, updateTransactionStatus, getCancelledTransactions } from './subject-controller.js';
+import { getUser, getAllUsers, getTransaction, getSales, addUser } from './SubControllers/user-controller.js';
+import { addTransaction, getTransactionAll, getTransactionStatus, deleteTransaction, updateTransactionStatus, getCancelledTransactions } from './SubControllers/transaction-controller.js';
+import { saveBasket, deleteBasket, getBasket } from './SubControllers/basket-controller.js';
+import { getMerchant } from './SubControllers/merchant-controller.js';
+import { getProduct, getProductByID, addProduct, deleteProduct, greetByPOST } from './SubControllers/product-controller.js';
 
 export default function router(app) {
 

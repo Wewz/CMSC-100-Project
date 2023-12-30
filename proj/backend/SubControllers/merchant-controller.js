@@ -1,7 +1,7 @@
-import connectDB from './subject-controller.js';
-import Merchant from './merchantModel.js';
+import mongoDB from '../MainController/subject-controller.js';
+import Merchant from '../Models/merchantModel.js';
 
-connectDB();
+mongoDB();
 
 // merchant
 const getMerchant = async (req, res) => {
@@ -27,4 +27,4 @@ const getMerchant = async (req, res) => {
     }
 };
 
-export default getMerchant;
+export {getMerchant};

@@ -1,7 +1,7 @@
-import connectDB from './subject-controller.js';
-import Basket from './basketModel.js';
+import mongoDB from '../MainController/subject-controller.js';
+import Basket from '../Models/basketModel.js';
 
-connectDB();
+mongoDB();
 
 // basket
 const saveBasket = async (req, res) => {
@@ -64,4 +64,4 @@ const getBasket = async (req, res) => {
 	}
   };
   
-  export default { saveBasket, deleteBasket, getBasket };
+  export { saveBasket, deleteBasket, getBasket };

@@ -1,7 +1,8 @@
-import connectDB from './subject-controller.js';
-import Product from './productModel.js';
+import mongoDB from '../MainController/subject-controller.js';
+import Product from '../Models/productModel.js';
+import Transaction from '../Models/transactionModel.js';
 
-connectDB();
+mongoDB();
 
 //products
 const getProduct = async (req, res) => {
@@ -63,4 +64,5 @@ const deleteProduct = async (req, res) => {
 	
 }
 
-export default { getProduct, getProductByID, addProduct, deleteProduct };
+
+export { getProduct, getProductByID, addProduct, deleteProduct, greetByPOST };
