@@ -56,6 +56,14 @@ const TransactionPending = ({user, transactions, setTransactions}) => {
             const data = await response.json();
     
             console.log(data.message);
+
+            const response2 = await fetch('http://localhost:3001/update-transaction-message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tid, newMessage: "Cancelled By User" }),
+            });
+    
+            const data2 = await response2.json();
             
             if(!data.success) return;
 

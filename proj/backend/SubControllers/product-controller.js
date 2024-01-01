@@ -24,7 +24,7 @@ const getProductByID = async (req, res) => {
 	try {
 	  const product = await Product.findOne({ pid: req.query.pid });
   
-	  if (transactions.length > 0) {
+	  if (product.length > 0) {
 		return res.json({ success: true, product: product });
 	  } else {
 		return res.json({ success: false, problem: 'No Existing Transaction' });
@@ -37,9 +37,9 @@ const getProductByID = async (req, res) => {
 
 // save new product
 const addProduct = async (req, res) => {
-	const { tid,pid,oquantity,status,email,date } = req.body
+	const { tid, product, quantity, status, email, message, date, time } = req.body
 
-	const newTransaction = new Transaction({ tid,pid,oquantity,status,email,date })
+	const newTransaction = new Transaction({ tid, product, quantity, status, email, message, date, time })
 
 	const result = await newTransaction.save()
 

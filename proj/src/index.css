@@ -14,3 +14,7 @@ body {
 .slick-next:before {
   color: #2D4944!important;
 }
+
+.dark-drop-shadow {
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+}

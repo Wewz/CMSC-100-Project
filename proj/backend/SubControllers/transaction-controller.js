@@ -5,9 +5,9 @@ mongoDB();
 
 //transactions
 const addTransaction = async (req, res) => {
-	const { tid, product, quantity, status, email, date, time } = req.body
+	const { tid, product, quantity, status, email, message, date, time } = req.body
 
-	const newTransaction = new Transaction({ tid, product,quantity, status, email, date, time })
+	const newTransaction = new Transaction({ tid, product,quantity, status, email, message, date, time })
 
 	const result = await newTransaction.save()
 
@@ -86,6 +86,27 @@ const updateTransactionStatus = async (req, res) => {
     }
 };
 
+const updateTransactionMessage = async (req, res) => {
+    try {
+        const { tid, newMessage } = req.body;
+
+        const updatedTransaction = await Transaction.findOneAndUpdate(
+            { tid },
+            { $set: { message: newMessage } },
+            { new: true }
+        );
+
+        if (updatedTransaction) {
+            res.send({ success: true, message: 'Transaction message updated successfully', updatedTransaction });
+        } else {
+            res.send({ success: false, message: 'Transaction not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, error: 'Internal Server Error' });
+    }
+};
+
 const getCancelledTransactions = async (req, res) => {
     try {
         const { email, status1, status2 } = req.params;
@@ -103,4 +124,4 @@ const getCancelledTransactions = async (req, res) => {
     }
 };
 
-export { addTransaction, getTransactionAll, getTransactionStatus, deleteTransaction, updateTransactionStatus, getCancelledTransactions };
+export { addTransaction, getTransactionAll, getTransactionStatus, deleteTransaction, updateTransactionStatus, getCancelledTransactions, updateTransactionMessage };

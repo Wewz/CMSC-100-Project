@@ -3,6 +3,7 @@ import ProductTitle from './productTitle';
 import Product from './product';
 import Cart from './cart';
 import CurrentCart from './currentCart';
+import ProductDetails from './productDetails';
 
 const Products = ({user}) => {
 
@@ -15,6 +16,9 @@ const Products = ({user}) => {
     const [basket, setBasket] = useState([]);
     const [total, setTotal] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
+    const [searching, setSearching] = useState(false);
+    const [seeProduct, setSeeProduct] = useState(false);
+    const [productToSee, setProductToSee] = useState(null);
 
     useEffect(() => {
         fetch('http://localhost:3001/get-product')
@@ -153,6 +157,33 @@ const Products = ({user}) => {
         setTotal(total+1);
     }
 
+    const addCart2 = (product, quantity) => {
+        
+        let exist = false;
+
+        if(total === 0) setEmpty(false);
+
+        for(let i=0; i<basket.length; i++) {
+
+            if(product.ptitle.localeCompare(basket[i].addedProduct.ptitle) === 0) {
+                const nextList = [...basket];
+                nextList[i].count += quantity;
+                setBasket(nextList);
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist) {
+            const newData = {addedProduct: product, count: quantity, key: product.ptitle + " " + basket.length }
+            setBasket([...basket, newData]);
+        }
+
+        console.log(basket)
+        setTotalCost(totalCost + (product.price * quantity));
+        setTotal(total+quantity);
+    }
+
     const emptyBasket = () => {
         setEmpty(true);
         setBasket([]);
@@ -181,7 +212,7 @@ const Products = ({user}) => {
 
     const removeProduct = (p) => {
 
-        if(basket.length == 1) {
+        if(basket.length === 1) {
             setEmpty(true);
             setSeeCart(false);
         }
@@ -197,15 +228,15 @@ const Products = ({user}) => {
 
             <div className="block">
 
-                <ProductTitle  setSortState={setSortState}/>
+                <ProductTitle  setSortState={setSortState} setProducts={setProducts} setSearching={setSearching}/>
 
                 <div className="flex items-center justify-center w-full h-full">
                     
                     <div className="w-[80%] mt-12 mb-24 flex">
                         
-                        <Product sortState={sortState} products={products} addCart={addCart}  />
+                        <Product sortState={sortState} products={products} addCart={addCart} searching={searching} setSeeProduct={setSeeProduct} setProductToSee={setProductToSee} />
 
-                        <Cart addCart={addCart} basket={basket} remove={remove} empty={empty} totalCost={totalCost} user={user} setSeeCart={setSeeCart} emptyBasket={emptyBasket} />
+                        <Cart basket={basket} empty={empty} totalCost={totalCost} user={user} setSeeCart={setSeeCart} emptyBasket={emptyBasket} />
 
                     </div>
                 </div>
@@ -214,6 +245,7 @@ const Products = ({user}) => {
             </div>
 
             <CurrentCart seeCart={seeCart} setSeeCart={setSeeCart} basket={basket} total={total} addCart={addCart} remove={remove} totalCost={totalCost} removeProduct={removeProduct} />
+            <ProductDetails seeProduct={seeProduct} setSeeProduct={setSeeProduct} productToSee={productToSee} addCart2={addCart2} />
 
         </div>
     );

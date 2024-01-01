@@ -56,7 +56,6 @@ const TransactionAll = ({user, transactions, setTransactions}) => {
 
     const handleCancelTransaction = async (transaction) => {
         const tid = transaction.tid;
-    
         console.log(tid);
     
         try {
@@ -69,15 +68,24 @@ const TransactionAll = ({user, transactions, setTransactions}) => {
             const data = await response.json();
     
             console.log(data.message);
-            
-            if(!data.success) return;
-
+    
+            const response2 = await fetch('http://localhost:3001/update-transaction-message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tid, newMessage: "Cancelled By User" }),
+            });
+    
+            const data2 = await response2.json();
+    
+            if (!data.success) return;
+    
             fetchTransactionsAll();
-
+    
         } catch (error) {
             console.error('Error updating transaction status:', error);
         }
     };
+    
 
     const handlePageClick = (event) => {
         setPageEnd((event.selected + 1) * 5);
@@ -127,12 +135,25 @@ const TransactionAll = ({user, transactions, setTransactions}) => {
                                     <p className="text-[#2D4944] text-base">{transaction.date.slice(0, 10)}</p>
                                 </div>
 
-                                <div className="flex flex-col font-bold text-sm justify-center items-center w-[12.5%]">
-                                    <button className="bg-[#2D4944] text-white p-4 rounded-xl hover:bg-[#69978e]"
-                                    onClick={(e) => handleCancelTransaction(transaction)} >
-                                        Cancel
-                                    </button>
-                                </div>
+                                {
+                                    transaction.status === -2 && (
+                                        <div className="flex flex-col font-bold text-sm justify-center text-center items-center w-[12.5%]">
+                                            <p className="text-[#b1b1b1]">Reason:</p>
+                                            <p className="text-[#2D4944] text-base text-ellipsis">{transaction.message}</p>
+                                        </div>
+                                    )
+                                }
+
+                                {
+                                    transaction.status === 0 && (
+                                        <div className="flex flex-col font-bold text-sm justify-center items-center w-[12.5%]">
+                                            <button className="bg-[#2D4944] text-white p-4 rounded-xl hover:bg-[#69978e]"
+                                            onClick={(e) => handleCancelTransaction(transaction)} >
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    )
+                                }
                             
                             
                             </div>

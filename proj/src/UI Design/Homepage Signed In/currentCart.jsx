@@ -10,9 +10,9 @@ const CurrentCart = ({seeCart, setSeeCart, basket, total, addCart, remove, total
     }
     else {
         return(
-            <div onClick={(e) => setSeeCart(false)} className="fixed inset-0 bg-[#2D4944] bg-opacity-20 flex flex-col justify-center items-center">
+            <div onClick={(e) => setSeeCart(false)} className="fixed inset-0 bg-[#2D4944] bg-opacity-20 flex flex-col justify-center items-center z-50">
 
-                <div onClick={(e) => e.stopPropagation()} className="w-[50%] h-[80%] bg-white rounded-3xl drop-shadow-3xl border border-[#2D4944] flex flex-col justify-center relative">
+                <div onClick={(e) => e.stopPropagation()} className="w-[50%] max-h-[80%] h-auto  py-16 bg-white rounded-3xl drop-shadow-3xl border border-[#2D4944] flex flex-col justify-center relative">
 
                         <div className="absolute right-0 top-0 flex justify-end text-right mt-4 mr-4">
                             <IoCloseCircle size={50} onClick={(e) => setSeeCart(false)} className="text-[#c8cbc8] hover:text-[#2D4944]" />

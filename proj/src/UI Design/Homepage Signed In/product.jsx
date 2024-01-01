@@ -1,6 +1,22 @@
 import React, {useState, useEffect} from 'react';
+import PaginationButtons from '../pagination/paginationButton';
 
-const Product = ({sortState, products, addCart}) => {
+const Product = ({sortState, products, addCart, searching, setSeeProduct, setProductToSee }) => {
+
+    const [pageCount, setPageCount] = useState(0);
+    const [productPage, setProductnPage] = useState([]);
+    const [pageStart, setPageStart] = useState(0);
+    const [pageEnd, setPageEnd] = useState(6);
+
+    useEffect(() => {
+
+        setPageCount(Math.ceil(products.length / 6));
+        setProductnPage(products.slice(pageStart, pageEnd));
+    }, [products]);
+
+    useEffect(() => {
+        setProductnPage(products.slice(pageStart, pageEnd));
+    }, [pageStart, pageEnd]);
 
 
     const sortMethods = {
@@ -15,18 +31,38 @@ const Product = ({sortState, products, addCart}) => {
 
     const productDisplay = (sortstate) =>{
         if(sortstate ==="none"){
-            return [...products];
+            return [...productPage];
         }else{
-            return [...products].sort(sortMethods[sortstate].method);
+            return [...productPage].sort(sortMethods[sortstate].method);
         }
     }
 
+    const handlePageClick = (event) => {
+        setPageEnd((event.selected + 1) * 6);
+        setPageStart(((event.selected + 1) * 6) - 6);
+    }
+
+    const handleViewProduct = (currentProduct) => {
+        setProductToSee(currentProduct);
+        setSeeProduct(true);
+    }
+
     return(
-        <div className="w-[70%] flex justify-center content-center items-center">
+        <div className="w-[70%] flex flex-col justify-center content-center items-center relative pb-16">
+
+            {
+                searching && (
+                    <div className="flex flex-col w-full text-[#2D4944] text-3xl pl-10 opacity-50 mb-8 font-semibold">
+                        Search Result:
+                    </div>
+                )
+            }
+
             <div className="flex-wrap flex gap-x-4 gap-y-14 justify-center content-center items-center w-[100%]">
                 {productDisplay(sortState).map((product, index) => (
                     <div key={product.ptitle}>
-                        <div className="bg-white border border-[#2D4944] rounded-2xl flex flex-col h-[280px] w-[280px]">
+                        <div className="bg-white border border-[#2D4944] rounded-2xl flex flex-col h-[280px] w-[280px] cursor-pointer"
+                        onClick={(e) => handleViewProduct(product)}>
 
                             <div className="flex flex-col h-36 items-center justify-center">
                                 <img className="object-cover object-center w-full h-full rounded-t-2xl" src={product.url} alt=""/>
@@ -48,6 +84,11 @@ const Product = ({sortState, products, addCart}) => {
                     </div>
                 ))}
             </div>
+
+            <div className="absolute bottom-0">
+                <PaginationButtons pageCount={pageCount} handlePageClick={handlePageClick} />
+            </div>
+
         </div>
     );
 }

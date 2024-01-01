@@ -6,7 +6,7 @@ import { RiShoppingBasketLine } from "react-icons/ri";
 import { FaCartShopping } from "react-icons/fa6";
 import { v4 as uuidv4 } from 'uuid';
 
-const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart, emptyBasket}) => {
+const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
 
     const [transaction, setTransaction] = useState({
         tid: "", 
@@ -14,6 +14,7 @@ const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart, empt
         quantity: "",
         status: "0",
         email: "",
+        message: "",
 	    date: "",
         time: ""
     });
@@ -47,13 +48,14 @@ const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart, empt
             const quantity = basket[i].count;
             const status = "0";
             const email = user.email;
+            const message = "";
             const time = getTime();
             const date = getDate();
     
             try {
                 let result = await fetch('http://localhost:3001/add-transaction', {
                     method: "post",
-                    body: JSON.stringify({ tid, product, quantity, status, email, date, time }),
+                    body: JSON.stringify({ tid, product, quantity, status, email, message, date, time }),
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -66,10 +68,6 @@ const Cart = ({addCart, basket, remove, empty, totalCost, user, setSeeCart, empt
                     alert("Data saved successfully");
                 } else {
                     alert(result.message);
-                }
-    
-                if (result.success) {
-                    // Do additional actions if needed
                 }
             } catch (error) {
                 console.error('Fetch error:', error.message);
