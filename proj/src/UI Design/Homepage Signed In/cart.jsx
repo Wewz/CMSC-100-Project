@@ -8,16 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
 
-    const [transaction, setTransaction] = useState({
-        tid: "", 
-        product: {}, 
-        quantity: "",
-        status: "0",
-        email: "",
-        message: "",
-	    date: "",
-        time: ""
-    });
+    const [transaction, setTransaction] = useState(null);
 
 
     const getDate= () => {
@@ -49,13 +40,16 @@ const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
             const status = "0";
             const email = user.email;
             const message = "";
+            const address = user.hNum + ", " + user.subd + ", " + user.brg + ", " + user.muni + ", " + user.prov;
+            const approval = "";
+            const cancelation = "";
             const time = getTime();
             const date = getDate();
     
             try {
                 let result = await fetch('http://localhost:3001/add-transaction', {
                     method: "post",
-                    body: JSON.stringify({ tid, product, quantity, status, email, message, date, time }),
+                    body: JSON.stringify({ tid, product, quantity, status, email, message, address, approval, cancelation, date, time }),
                     headers: {
                         'Content-Type': 'application/json'
                     }

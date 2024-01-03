@@ -43,7 +43,7 @@ const getAllUsers = async (req, res) => {
 
 const getTransaction = async (req, res) => {
 	try {
-	  const orders = await Transaction.find({status: 0});
+	  const orders = await Transaction.find({});
 	  console.log(orders);
 	  res.send(orders);
 	} catch (error) {

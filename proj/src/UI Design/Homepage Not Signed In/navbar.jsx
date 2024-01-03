@@ -5,7 +5,7 @@ import { MdProductionQuantityLimits } from "react-icons/md";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 
-import LogIn from '../log-in/logIn';
+import LogIn from '../LogIn and LogOut/logIn';
 
 const NavBarNotSigned = ({setUserLogged, setUser, setMerchant, setMerchantLogged}) => {
 

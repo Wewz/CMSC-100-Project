@@ -5,9 +5,9 @@ mongoDB();
 
 //transactions
 const addTransaction = async (req, res) => {
-	const { tid, product, quantity, status, email, message, date, time } = req.body
+	const { tid, product, quantity, status, email, message, address, approval, cancelation, date, time } = req.body
 
-	const newTransaction = new Transaction({ tid, product,quantity, status, email, message, date, time })
+	const newTransaction = new Transaction({ tid, product,quantity, status, email, message, address, approval, cancelation, date, time })
 
 	const result = await newTransaction.save()
 
@@ -124,4 +124,61 @@ const getCancelledTransactions = async (req, res) => {
     }
 };
 
-export { addTransaction, getTransactionAll, getTransactionStatus, deleteTransaction, updateTransactionStatus, getCancelledTransactions, updateTransactionMessage };
+const updateTransactionApproval = async (req, res) => {
+  try {
+      const { tid, newApproval } = req.body;
+
+      const updatedTransaction = await Transaction.findOneAndUpdate(
+          { tid },
+          { $set: { approval: newApproval } },
+          { new: true }
+      );
+
+      if (updatedTransaction) {
+          res.send({ success: true, message: 'Transaction message updated successfully', updatedTransaction });
+      } else {
+          res.send({ success: false, message: 'Transaction not found' });
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ success: false, error: 'Internal Server Error' });
+  }
+};
+
+const updateTransactionCancelation = async (req, res) => {
+  try {
+      const { tid, newCancelation } = req.body;
+
+      const updatedTransaction = await Transaction.findOneAndUpdate(
+          { tid },
+          { $set: { cancelation: newCancelation } },
+          { new: true }
+      );
+
+      if (updatedTransaction) {
+          res.send({ success: true, message: 'Transaction message updated successfully', updatedTransaction });
+      } else {
+          res.send({ success: false, message: 'Transaction not found' });
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ success: false, error: 'Internal Server Error' });
+  }
+};
+
+const getTransactionWithStatus = async (req, res) => {
+	try {
+		const transactions = await Transaction.find({ status: req.params.status });
+  
+	  if (transactions.length > 0) {
+		  return res.json({ success: true, transactions: transactions });
+	  } else {
+		  return res.json({ success: false, problem: 'No Existing Transaction' });
+	  }
+	} catch (error) {
+	  console.error('Error:', error.message);
+	  return res.status(500).json({ success: false, problem: 'Internal Server Error' });
+	}
+};
+
+export { addTransaction, getTransactionAll, getTransactionStatus, deleteTransaction, updateTransactionStatus, getCancelledTransactions, updateTransactionMessage, updateTransactionApproval, updateTransactionCancelation, getTransactionWithStatus };

@@ -8,6 +8,7 @@ import { TiThMenu } from "react-icons/ti";
 import { Link } from 'react-router-dom';
 import { FaHistory } from "react-icons/fa";
 import { FaShoppingBasket } from "react-icons/fa";
+import LogOutConfirmation from '../LogIn and LogOut/logoutConfirmation';
 
 const NavBarSigned = ({userLogged, setUserLogged, user}) => {
 
@@ -74,6 +75,8 @@ const NavBarSigned = ({userLogged, setUserLogged, user}) => {
                 </div>
     */
 
+    const [logOut, setLogOut] = useState(false);
+
     return(
         <Fragment>
 
@@ -105,7 +108,7 @@ const NavBarSigned = ({userLogged, setUserLogged, user}) => {
                             </Link>
                         </li>
 
-                        <li className="p-4 flex hover:text-[#77AC6F] cursor-pointer" onClick={(e) => setUserLogged(false)}>
+                        <li className="p-4 flex hover:text-[#77AC6F] cursor-pointer" onClick={(e) => setLogOut(true)}>
                             <RiLogoutBoxRFill size={20} className="mr-2"/>
                             Log Out
                         </li>
@@ -123,7 +126,7 @@ const NavBarSigned = ({userLogged, setUserLogged, user}) => {
 
             </div>
 
-            
+            <LogOutConfirmation logOut={logOut} setLogOut={setLogOut} setUserLogged={setUserLogged} />
 
         </Fragment>
     );

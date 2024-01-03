@@ -22,18 +22,23 @@ const greetByPOST = async (req, res) => {
 // get product by id
 const getProductByID = async (req, res) => {
 	try {
-	  const product = await Product.findOne({ pid: req.query.pid });
-  
-	  if (product.length > 0) {
-		return res.json({ success: true, product: product });
-	  } else {
-		return res.json({ success: false, problem: 'No Existing Transaction' });
-	  }
+		const { pid } = req.params;
+
+		const product = await Product.findOne({ pid: pid });
+
+		console.log(product)
+
+	if (product) {
+		return res.json({ success: true, product });
+	} else {
+		return res.json({ success: false, problem: 'No Existing Product' });
+	}
 	} catch (error) {
-	  console.error('Error:', error.message);
-	  return res.status(500).json({ success: false, problem: 'Internal Server Error' });
+		console.error('Error:', error.message);
+		return res.status(500).json({ success: false, problem: 'Internal Server Error' });
 	}
   };
+  
 
 // save new product
 const addProduct = async (req, res) => {
@@ -61,8 +66,28 @@ const deleteProduct = async (req, res) => {
 	} else { 
 		res.send({ success: false })
 	}
-	
 }
 
+const updateProductnQuantity = async (req, res) => {
+	try {
+		const { pid, newQuantity } = req.body;
+  
+		const updatedProduct = await Product.findOneAndUpdate(
+			{ pid },
+			{ $set: { quantity: newQuantity } },
+			{ new: true }
+		);
+  
+		if (updatedProduct) {
+			res.send({ success: true, message: 'Transaction updated successfully', updatedProduct });
+		} else {
+			res.send({ success: false, message: 'Transaction not found' });
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).send({ success: false, error: 'Internal Server Error' });
+	}
+};
 
-export { getProduct, getProductByID, addProduct, deleteProduct, greetByPOST };
+
+export { getProduct, getProductByID, addProduct, deleteProduct, greetByPOST, updateProductnQuantity };

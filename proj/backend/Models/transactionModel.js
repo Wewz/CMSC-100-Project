@@ -16,6 +16,9 @@ const Transaction = mongoose.model('Transactions', {
 	status: Number,
 	email: String,
 	message: String,
+	address: String,
+	approval: String,
+	cancelation: String,
 	date: Date,
 	time: String
 });

@@ -118,7 +118,7 @@ function Sign() {
                                 <div className="w-[10%]"></div>
                             </div>
                         </div>
-                        <Account user={user} setUser={setUser} signUp={newUser} />
+                        <Account user={user} setUser={setUser} newUser={newUser} />
                     </div>
 
                 </div>

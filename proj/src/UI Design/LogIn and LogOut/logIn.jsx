@@ -78,7 +78,7 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser, setMerchant, setM
 
                 <div className="fixed inset-0 bg-[#2D4944] bg-opacity-25 flex flex-col justify-center items-center">
 
-                    <div onClick={(e) => e.stopPropagation()} className="w-[40%] h-[550px] hidden xl:block 2xl:block bg-white rounded-3xl drop-shadow-3xl">
+                    <div onClick={(e) => e.stopPropagation()} className="w-[40%] h-[550px] hidden xl:block 2xl:block bg-white rounded-3xl drop-shadow-3xl border border-[#2D4944]">
 
                         <div className="flex justify-end text-right mt-4 mr-4">
                             <IoCloseCircle size={50} onClick={closeLogin} className="text-[#c8cbc8] hover:text-[#2D4944]" />

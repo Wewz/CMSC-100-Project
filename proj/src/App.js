@@ -36,7 +36,7 @@ function App() {
     <Router>
       <div className="scroll-smooth">
 
-        <div className="relative z-20">
+        <div className="relative z-40">
           <MainNavBar userLogged={userLogged} setUserLogged={setUserLogged} setUser={setUser} setMerchant={setMerchant} merchantLogged={merchantLogged} setMerchantLogged={setMerchantLogged} user={user} />
         </div>
 
