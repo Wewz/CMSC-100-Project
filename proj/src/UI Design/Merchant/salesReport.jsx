@@ -386,7 +386,7 @@ const SalesReport = () => {
                             </div>
 
                             <div className="text-lg text-[#7e7e7e]">
-                            Poultry Products
+                            Crop Products
                             </div>
                         </div>
 
