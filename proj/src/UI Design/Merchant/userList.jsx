@@ -4,6 +4,7 @@ import UserDetails from "./userDetails";
 import PaginationButtons from "../pagination/paginationButton";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import { FcReadingEbook } from "react-icons/fc";
 
 const UserList = ({merchantLogged}) => {
 
@@ -77,34 +78,29 @@ const UserList = ({merchantLogged}) => {
                         <div className="bg-white border border-[#2D4944] rounded-2xl flex items-center text-center justify-center p-5 font-bold text-sm">
 
                             <div className="flex flex-col text-[#2D4944] items-center justify-center w-[5%]">
-                                <FaRegCircleUser size={40}/>
+                                <FcReadingEbook size={40}/>
                             </div>
 
-                            <div className="flex flex-col p-4 truncate text-[#2D4944] w-[18.75%]">
+                            <div className="flex flex-col p-4 truncate text-[#2D4944] w-[21.25%]">
                               <p className="text-[#c1c1c1]">Username: </p>
                               <p className="truncate">{user.username}</p>
                             </div>
 
-                            <div className="flex flex-col p-4 truncate text-[#2D4944] w-[18.75%]">
+                            <div className="flex flex-col p-4 truncate text-[#2D4944] w-[21.25%]">
                               <p className="text-[#c1c1c1]">Password: </p>
                               <p className="truncate">{user.password}</p>
                             </div>
 
-                            <div className="flex flex-col p-4 truncate text-[#2D4944] w-[18.75%]">
+                            <div className="flex flex-col p-4 truncate text-[#2D4944] w-[21.25%]">
                               <p className="text-[#c1c1c1]">Name: </p>
                               <p className="truncate">{user.fname} {user.lname}</p>
                             </div>
 
-                            <div className="flex flex-col p-4 truncate text-[#2D4944] w-[18.75%]">
+                            <div className="flex flex-col p-4 truncate text-[#2D4944] w-[21.25%]">
                               <p className="text-[#c1c1c1]">Email Address: </p>
                               <p className="truncate">{user.email}</p>
                             </div>
 
-                            <div className="w-[10%]">
-                              <div className="flex text-white bg-[#2D4944] cursor-pointer p-2 text-xs rounded-xl hover:bg-[#50726b] justify-center items-center w-[90%]">
-                                  Remove User
-                              </div>
-                            </div>
 
                             <div className="w-[10%]">
                               <div className="flex text-[#2D4944] bg-white border border-[#2D4944] cursor-pointer p-2 text-xs rounded-xl hover:bg-[#dadada] justify-center items-center w-[90%]"

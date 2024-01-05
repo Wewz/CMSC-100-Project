@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { BsCurrencyExchange } from "react-icons/bs";
 import PaginationButtons from "../../pagination/paginationButton";
-import { MdWorkHistory } from "react-icons/md";
-import { FaArrowLeftLong } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
 
-import { MdOutlineCancel } from "react-icons/md";
-import { MdOutlinePending } from "react-icons/md";
-import { MdCheckCircleOutline } from "react-icons/md";
+import { FcCancel } from "react-icons/fc";
+import { FcMediumPriority } from "react-icons/fc";
+import { FcShipped } from "react-icons/fc";
 
 const OrderListAll = ({transactions, setTransactions, setOrderToShow, setShowDetails, actionTaken, setActionTaken}) => {
 
@@ -77,7 +73,27 @@ const OrderListAll = ({transactions, setTransactions, setOrderToShow, setShowDet
     else if(status === 1) {
         return "Approved";
     }
-  } 
+  }
+  
+  const handleDate = (dateString) => {
+    const parsedDate = new Date(dateString);
+    const formattedDate = parsedDate.toLocaleDateString();
+
+    const dateParts = formattedDate.split('/');
+
+    const dayString = dateParts[1];
+    const yearString = dateParts[2];
+    const monthNumber = parseInt(dateParts[0], 10);
+
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const monthName = monthNames[monthNumber - 1];
+
+    return monthName + " " + dayString + ", " + yearString;
+}
 
   return (
 
@@ -90,14 +106,14 @@ const OrderListAll = ({transactions, setTransactions, setOrderToShow, setShowDet
                               t.status === 0 &&
 
                               <div className="flex flex-col text-[#7d7d7d] items-center justify-center w-[5%]">
-                                <MdOutlinePending size={40}/>
+                                <FcMediumPriority size={40}/>
                               </div>
                             }
 
                             {
                               (t.status === -1 || t.status === -2)  && (
                                 <div className="flex flex-col text-[#ff3535] items-center justify-center w-[5%]">
-                                  <MdOutlineCancel size={40} />
+                                  <FcCancel size={40} />
                                 </div>
                               )
                             }
@@ -106,7 +122,7 @@ const OrderListAll = ({transactions, setTransactions, setOrderToShow, setShowDet
                               t.status === 1 &&
 
                               <div className="flex flex-col text-[#009f78] items-center justify-center w-[5%]">
-                                <MdCheckCircleOutline size={40}/>
+                                <FcShipped size={40}/>
                               </div>
                             }
 
@@ -132,7 +148,7 @@ const OrderListAll = ({transactions, setTransactions, setOrderToShow, setShowDet
 
                             <div className="flex flex-col p-4 truncate text-[#2D4944] w-[17%]">
                                 <p className="text-[#c1c1c1]">Date Ordered: </p>
-                                <p className="truncate">{t.date.slice(0, 10)}</p>
+                                <p className="truncate">{handleDate(t.date)}</p>
                             </div>
 
                             <div className="w-[10%]">

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 
 import NavBarSigned from "../UI Design/Homepage Signed In/newNav";
 import NavBarNotSigned from "../UI Design/Homepage Not Signed In/navbar";
-import SideNav from "../UI Design/Merchantpage/sideNav";
+import SideNav from "../UI Design/Merchant/sideNav";
 
 function MainNavBar({userLogged, setUserLogged, setUser, setMerchant, merchantLogged, setMerchantLogged, user}) {
 

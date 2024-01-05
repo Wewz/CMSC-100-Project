@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PaginationButtons from "../../pagination/paginationButton";
 
-import { MdCheckCircleOutline } from "react-icons/md";
+import { FcShipped } from "react-icons/fc";
 
 const OrderListApproved = ({transactions, setTransactions, setOrderToShow, setShowDetails, actionTaken, setActionTaken}) => {
 
@@ -75,7 +75,27 @@ const OrderListApproved = ({transactions, setTransactions, setOrderToShow, setSh
     else if(status === 1) {
         return "Approved";
     }
-  } 
+  }
+  
+  const handleDate = (dateString) => {
+    const parsedDate = new Date(dateString);
+    const formattedDate = parsedDate.toLocaleDateString();
+
+    const dateParts = formattedDate.split('/');
+
+    const dayString = dateParts[1];
+    const yearString = dateParts[2];
+    const monthNumber = parseInt(dateParts[0], 10);
+
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const monthName = monthNames[monthNumber - 1];
+
+    return monthName + " " + dayString + ", " + yearString;
+}
 
   return (
 
@@ -86,7 +106,7 @@ const OrderListApproved = ({transactions, setTransactions, setOrderToShow, setSh
 
 
                             <div className="flex flex-col text-[#009f78] items-center justify-center w-[5%]">
-                            <MdCheckCircleOutline size={40}/>
+                            <FcShipped size={40}/>
                             </div>
                             
 
@@ -111,8 +131,8 @@ const OrderListApproved = ({transactions, setTransactions, setOrderToShow, setSh
                             </div>
 
                             <div className="flex flex-col p-4 truncate text-[#2D4944] w-[17%]">
-                                <p className="text-[#c1c1c1]">Date Ordered: </p>
-                                <p className="truncate">{t.date.slice(0, 10)}</p>
+                                <p className="text-[#c1c1c1]">Date Approved: </p>
+                                <p className="truncate">{handleDate(t.approval)}</p>
                             </div>
 
                             <div className="w-[10%]">

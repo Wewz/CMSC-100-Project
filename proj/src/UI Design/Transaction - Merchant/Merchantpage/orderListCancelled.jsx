@@ -1,75 +1,71 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PaginationButtons from "../../pagination/paginationButton";
 
-
-import { MdOutlineCancel } from "react-icons/md";
+import { FcCancel } from "react-icons/fc";
 
 const OrderListCancelled = ({transactions, setTransactions, setOrderToShow, setShowDetails, actionTaken, setActionTaken}) => {
 
-  const [pageCount, setPageCount] = useState(0);
-  const [transactionPage, setTransactionPage] = useState([]);
-  const [pageStart, setPageStart] = useState(0);
-  const [pageEnd, setPageEnd] = useState(5);
+    const [pageCount, setPageCount] = useState(0);
+    const [transactionPage, setTransactionPage] = useState([]);
+    const [pageStart, setPageStart] = useState(0);
+    const [pageEnd, setPageEnd] = useState(5);
 
-  useEffect(() => {
+    useEffect(() => {
 
-    setPageCount(Math.ceil(transactions.length / 5));
-    setTransactionPage(transactions.slice(pageStart, pageEnd));
-  }, [transactions]);
+        setPageCount(Math.ceil(transactions.length / 5));
+        setTransactionPage(transactions.slice(pageStart, pageEnd));
+    }, [transactions]);
 
-  useEffect(() => {
-    setTransactionPage(transactions.slice(pageStart, pageEnd));
-  }, [pageStart, pageEnd]);
+    useEffect(() => {
+        setTransactionPage(transactions.slice(pageStart, pageEnd));
+    }, [pageStart, pageEnd]);
 
 
-  const fetchOrders = async () => {
+    const fetchOrders = async () => {
+      
         try {
-            const response = await fetch(`http://localhost:3001/get-transaction-using-status/${-1}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            if (!data.success) return;
-            setTransactions(data.transactions);
-
+            const response1 = await fetch(`http://localhost:3001/get-transaction-using-status/${-1}`);
+            const data1 = await response1.json();
+        
             const response2 = await fetch(`http://localhost:3001/get-transaction-using-status/${-2}`);
-            if (!response2.ok) {
-                throw new Error(`HTTP error! Status: ${response2.status}`);
-            }
-
             const data2 = await response2.json();
-            if (!data2.success) return;
-            setTransactions([...transactions, ...data2.transactions]);
-        } 
-        catch (error) {
-            console.error('Error fetching users:', error.message);
+      
+            if (!response1.ok && !response2.ok) {
+                setTransactions([]);
+            } else if (!response2.ok) {
+                setTransactions(data1.transactions || []); // Use empty array if data1.transactions is falsy
+            } else if (!response1.ok) {
+                setTransactions(data2.transactions || []); // Use empty array if data2.transactions is falsy
+            } else {
+                setTransactions([...(data1.transactions || []), ...(data2.transactions || [])]); // Use empty arrays if data1.transactions or data2.transactions is falsy
+            }
+        } catch (error) {
+          console.error('Error fetching orders:', error.message);
+
         }
     };
 
+    useEffect(() => {
+        fetchOrders();
+    }, []);
 
+    useEffect(() => {
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
+        if(!actionTaken) return;
 
-  useEffect(() => {
+        fetchOrders();
+        setActionTaken(false);
+    }, [actionTaken]);
 
-    if(!actionTaken) return;
+    const handleShowDetails = (current) => {
+        setOrderToShow(current)
+        setShowDetails(true);
+    }
 
-    fetchOrders();
-    setActionTaken(false);
-  }, [actionTaken]);
-
-  const handleShowDetails = (current) => {
-    setOrderToShow(current)
-    setShowDetails(true);
-  }
-
-  const handlePageClick = (event) => {
-    setPageEnd((event.selected + 1) * 5);
-    setPageStart(((event.selected + 1) * 5) - 5);
-  }
+    const handlePageClick = (event) => {
+        setPageEnd((event.selected + 1) * 5);
+        setPageStart(((event.selected + 1) * 5) - 5);
+    }
 
   const getStatus = (status) => {
 
@@ -87,6 +83,26 @@ const OrderListCancelled = ({transactions, setTransactions, setOrderToShow, setS
     }
   } 
 
+  const handleDate = (dateString) => {
+    const parsedDate = new Date(dateString);
+    const formattedDate = parsedDate.toLocaleDateString();
+
+    const dateParts = formattedDate.split('/');
+
+    const dayString = dateParts[1];
+    const yearString = dateParts[2];
+    const monthNumber = parseInt(dateParts[0], 10);
+
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const monthName = monthNames[monthNumber - 1];
+
+    return monthName + " " + dayString + ", " + yearString;
+}
+
   return (
 
         <div className="w-[90%] flex flex-col justify-center content-center items-center gap-y-5">
@@ -95,7 +111,7 @@ const OrderListCancelled = ({transactions, setTransactions, setOrderToShow, setS
                         <div className="bg-white border border-[#2D4944] rounded-2xl flex items-center text-center justify-center p-5 font-bold text-sm">
 
                              <div className="flex flex-col text-[#ff3535] items-center justify-center w-[5%]">
-                                <MdOutlineCancel size={40} />
+                                <FcCancel size={40} />
                             </div>
 
                             <div className="flex flex-col p-4 truncate text-[#2D4944] w-[17%]">
@@ -119,8 +135,8 @@ const OrderListCancelled = ({transactions, setTransactions, setOrderToShow, setS
                             </div>
 
                             <div className="flex flex-col p-4 truncate text-[#2D4944] w-[17%]">
-                                <p className="text-[#c1c1c1]">Date Ordered: </p>
-                                <p className="truncate">{t.date.slice(0, 10)}</p>
+                                <p className="text-[#c1c1c1]">Date Cancelled: </p>
+                                <p className="truncate">{handleDate(t.cancelation)}</p>
                             </div>
 
                             <div className="w-[10%]">

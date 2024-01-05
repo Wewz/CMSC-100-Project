@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import RootNotSigned from "./RootNotSigned";
 import RootSigned from "./RootSigned";
-import DashBoard from "../UI Design/Merchantpage/dashBoard";
+import DashBoard from "../UI Design/Merchant/dashBoard";
 
 function Home({userLogged, setUserLogged, merchantLogged, setMerchantLogged, user}) {
 

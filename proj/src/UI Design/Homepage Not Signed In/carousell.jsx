@@ -144,9 +144,6 @@ const ProductCarousel = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <button className="bg-[#2D4944] h-8 w-full mt-4 text-white text-xs rounded-lg px-6 hover:bg-[#DCE0DC] hover:text-[#2D4944]">Buy Now</button>
-                        <button></button>
                     </div>
                 ))}
                 </Slider>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ImFilesEmpty } from "react-icons/im";
 import PaginationButtons from "../pagination/paginationButton";
+import { FcCancel } from "react-icons/fc";
 
 const TransactionCancelled = ({user, transactions, setTransactions}) => {
 
@@ -100,9 +101,8 @@ const TransactionCancelled = ({user, transactions, setTransactions}) => {
                                     <p className="text-[#2D4944] text-base">{transaction.date.slice(0, 10)}</p>
                                 </div>
 
-                                <div className="flex flex-col font-bold text-sm justify-center items-center w-[12.5%]">
-                                    <p className="text-[#b1b1b1]">Reason:</p>
-                                    <p className="text-[#2D4944] text-base">{getStatus(transaction.status)}</p>
+                                <div className="flex flex-col justify-center text-center items-center w-[12.5%]">
+                                    <FcCancel size={60} />
                                 </div>
                             
                             

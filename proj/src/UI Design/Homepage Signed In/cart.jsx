@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import { FaArrowRightLong } from "react-icons/fa6";
-import { HiPlusSm } from "react-icons/hi";
-import { TbMinus } from "react-icons/tb";
 import { RiShoppingBasketLine } from "react-icons/ri";
 import { FaCartShopping } from "react-icons/fa6";
 import { v4 as uuidv4 } from 'uuid';
+import ConfirmAddTransaction from './confirmAddTransaction';
 
 const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
 
     const [transaction, setTransaction] = useState(null);
-
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [add, setAdd] = useState(false);
 
     const getDate= () => {
         const date = new Date();
@@ -59,7 +59,7 @@ const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
                 console.warn(result);
     
                 if (result.success) {
-                    alert("Data saved successfully");
+                    
                 } else {
                     alert(result.message);
                 }
@@ -72,6 +72,14 @@ const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
         emptyBasket();
 
     };
+
+    useEffect(() => {
+
+        if(!add) return;
+
+        handleOnSubmit();
+        setAdd(false);
+    }, [add]);
 
     return(
 
@@ -139,7 +147,7 @@ const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
                         </button>
 
                         <button className="bg-[#2D4944] h-12 w-full mt-4 text-white rounded-lg px-6 p-2 hover:bg-[#DCE0DC] hover:text-[#2D4944] flex justify-between content-center items-center"
-                        onClick={(e) => handleOnSubmit(e)}>
+                        onClick={(e) => setShowConfirm(true)}>
                         Checkout Products
                         <FaArrowRightLong size={15} />
                         </button>
@@ -153,6 +161,7 @@ const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
                 }
 
             </div>
+            <ConfirmAddTransaction showConfirm={showConfirm} setShowConfirm={setShowConfirm} setAdd={setAdd} />
         </div>
     );
 }

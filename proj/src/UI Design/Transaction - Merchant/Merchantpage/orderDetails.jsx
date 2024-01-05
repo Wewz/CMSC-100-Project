@@ -71,6 +71,7 @@ const OrderDetails =({showDetails, setShowDetails, orderToShow, setActionTaken})
         if(newQuantity < 0) return;
     
         try {
+
             const response = await fetch('http://localhost:3001/update-transaction-status', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -80,7 +81,7 @@ const OrderDetails =({showDetails, setShowDetails, orderToShow, setActionTaken})
             const response2 = await fetch('http://localhost:3001/update-product-quantity', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pid, newQuantity }),
+                body: JSON.stringify({ pid, quantity: newQuantity }),
             });
 
             const response3 = await fetch('http://localhost:3001/update-transaction-approval', {
@@ -124,6 +125,28 @@ const OrderDetails =({showDetails, setShowDetails, orderToShow, setActionTaken})
             console.error('Error updating transaction status:', error);
         }
     };
+
+    const handleDate = (dateString) => {
+        const parsedDate = new Date(dateString);
+        const formattedDate = parsedDate.toLocaleDateString();
+
+        const dateParts = formattedDate.split('/');
+
+        const month = dateParts[0];
+        const day = dateParts[1];
+        const year = dateParts[2];
+
+        const monthNumber = parseInt(dateParts[0], 10);
+
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        const monthName = monthNames[monthNumber - 1];
+
+        return monthName + " " + day + ", " + year;
+    }
 
     if(!showDetails) return null;
     else 
@@ -176,7 +199,7 @@ const OrderDetails =({showDetails, setShowDetails, orderToShow, setActionTaken})
                                 </div>
 
                                 <div className="p-2 border rounded-xl border-[#2D4944]">
-                                    <h1 className=" text-[#2D4944] text-base font-semibold">{orderToShow.approval.slice(0, 10)}</h1>
+                                    <h1 className=" text-[#2D4944] text-base font-semibold">{handleDate(orderToShow.approval)}</h1>
                                 </div>
                             </div>
                         }
@@ -190,7 +213,7 @@ const OrderDetails =({showDetails, setShowDetails, orderToShow, setActionTaken})
                                 </div>
 
                                 <div className="p-2 border rounded-xl border-[#2D4944]">
-                                    <h1 className=" text-[#2D4944] text-base font-semibold">{orderToShow.cancelation.slice(0, 10)}</h1>
+                                    <h1 className=" text-[#2D4944] text-base font-semibold">{handleDate(orderToShow.cancelation)}</h1>
                                 </div>
                             </div>
                             )
@@ -199,11 +222,11 @@ const OrderDetails =({showDetails, setShowDetails, orderToShow, setActionTaken})
 
                         <div className="w-[33%] p-2">
                             <div className="">
-                                <h1 className="text-[#7e7e7e] text-xs">Date and Time:</h1>
+                                <h1 className="text-[#7e7e7e] text-xs">Date of Order:</h1>
                             </div>
 
                             <div className="p-2 border rounded-xl border-[#2D4944]">
-                                <h1 className=" text-[#2D4944] text-base font-semibold">{orderToShow.date.slice(0, 10)} - {orderToShow.time}</h1>
+                                <h1 className=" text-[#2D4944] text-base font-semibold">{handleDate(orderToShow.date)}</h1>
                             </div>
                         </div>
 
@@ -325,10 +348,10 @@ const OrderDetails =({showDetails, setShowDetails, orderToShow, setActionTaken})
                                 onClick={(e) => handleApproveTransaction()}>
                                     <FaRegCircleCheck size={30} />
                                     Approve Transaction
-                                    </div>
-
                                 </div>
+
                             </div>
+                        </div>
                     }
 
                     {

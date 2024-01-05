@@ -2,7 +2,7 @@ import { getUser, getAllUsers, getTransaction, getSales, addUser } from './SubCo
 import { addTransaction, getTransactionAll, getTransactionStatus, deleteTransaction, updateTransactionStatus, getCancelledTransactions, updateTransactionMessage, updateTransactionApproval, updateTransactionCancelation, getTransactionWithStatus } from './SubControllers/transaction-controller.js';
 import { saveBasket, deleteBasket, getBasket } from './SubControllers/basket-controller.js';
 import { getMerchant } from './SubControllers/merchant-controller.js';
-import { getProduct, getProductByID, addProduct, deleteProduct, greetByPOST, updateProductnQuantity } from './SubControllers/product-controller.js';
+import { getProduct, getProductByID, addProduct, deleteProduct, greetByPOST, updateProductnQuantity, updateProductnPrice } from './SubControllers/product-controller.js';
 
 export default function router(app) {
 
@@ -40,4 +40,5 @@ export default function router(app) {
   app.post('/update-transaction-approval', updateTransactionApproval);
   app.post('/update-transaction-cancelation', updateTransactionCancelation);
   app.get('/get-transaction-using-status/:status', getTransactionWithStatus);
+  app.post('/update-product-price', updateProductnPrice);
 }

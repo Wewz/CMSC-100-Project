@@ -109,10 +109,12 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser, setMerchant, setM
                                 placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
 
-                            <button className="bg-[#2D4944] w-[60%] h-16 mt-8 text-white rounded-full hover:bg-[#497069]"
-                                onClick={handleLogIn} >
-                                    Log In
-                            </button>
+                            <Link to="/" className="w-[60%]">
+                                <button className="bg-[#2D4944] w-full h-16 mt-8 text-white rounded-full hover:bg-[#497069]"
+                                    onClick={handleLogIn} >
+                                        Log In
+                                </button>
+                            </Link>
 
                         </div>
                 
@@ -152,10 +154,12 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser, setMerchant, setM
                                 placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
 
-                            <button className="bg-[#2D4944] w-[60%] h-16 mt-8 text-white rounded-full hover:bg-[#497069]"
-                            onClick={handleLogIn} >
-                                Log In
-                            </button>
+                            <Link to="/" className="w-[60%]">
+                                <button className="bg-[#2D4944] w-full h-16 mt-8 text-white rounded-full hover:bg-[#497069]"
+                                onClick={handleLogIn} >
+                                    Log In
+                                </button>
+                            </Link>
                         </div>
                 
                     </div>
@@ -192,11 +196,12 @@ const LogIn = ({openLogin, closeLogin, setUserLogged, setUser, setMerchant, setM
                                 text-xs pl-[85px] w-full h-full focus:border-[#507c74]" 
                                 placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                             </div>
-
-                            <button className="bg-[#2D4944] w-[60%] h-12 mt-8 text-white rounded-full text-xs hover:bg-[#497069]"
-                            onClick={handleLogIn} >
-                                Log In
-                            </button>
+                            <Link to="/" className="w-[60%]">
+                                <button className="bg-[#2D4944] w-full h-12 mt-8 text-white rounded-full text-xs hover:bg-[#497069]"
+                                onClick={handleLogIn} >
+                                    Log In
+                                </button>
+                            </Link>
                         </div>
                 
                     </div>

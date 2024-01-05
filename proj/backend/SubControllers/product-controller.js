@@ -1,15 +1,23 @@
 import mongoDB from '../MainController/subject-controller.js';
 import Product from '../Models/productModel.js';
-import Transaction from '../Models/transactionModel.js';
 
 mongoDB();
 
 //products
 const getProduct = async (req, res) => {
-	const products = await Product.find({});
-	console.log(products)
-	res.send(products)
-}
+	try {
+		
+		const products = await Product.find({});
+
+		console.log(products);
+		res.send(products);
+		
+	} catch (error) {
+		console.error('Error fetching products:', error);
+		res.status(500).send('Internal Server Error');
+	}
+};
+
 
 const greetByPOST = async (req, res) => {
 	console.log(req.body.name)
@@ -42,11 +50,11 @@ const getProductByID = async (req, res) => {
 
 // save new product
 const addProduct = async (req, res) => {
-	const { tid, product, quantity, status, email, message, date, time } = req.body
+	const { pid, ptitle, ptype, price, quantity, url } = req.body
 
-	const newTransaction = new Transaction({ tid, product, quantity, status, email, message, date, time })
+	const newProduct = new Product({ pid, ptitle, ptype, price, quantity, url })
 
-	const result = await newTransaction.save()
+	const result = await newProduct.save()
 
 	if (result._id) {
 		res.send({ success: true })
@@ -57,24 +65,51 @@ const addProduct = async (req, res) => {
 
 // delete 
 const deleteProduct = async (req, res) => {
-	const { code } = req.body
-
-	const result = await Product.deleteOne({ code })
-
-	if (result.deletedCount == 1) {
-		res.send({ success: true })
-	} else { 
-		res.send({ success: false })
+	try {
+	  const { pid } = req.body;
+  
+	  // Use findOneAndDelete to find and remove the basket
+	  const deletedBasket = await Product.findOneAndDelete({ pid });
+  
+	  if (deletedBasket) {
+		res.send({ success: true, message: 'Basket deleted successfully' });
+	  } else {
+		res.send({ success: false, message: 'Basket not found or already deleted' });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).send({ success: false, error: 'Internal Server Error' });
 	}
-}
+};
 
 const updateProductnQuantity = async (req, res) => {
 	try {
-		const { pid, newQuantity } = req.body;
+		const { pid, quantity } = req.body;
   
 		const updatedProduct = await Product.findOneAndUpdate(
 			{ pid },
-			{ $set: { quantity: newQuantity } },
+			{ $set: { quantity: quantity } },
+			{ new: true }
+		);
+  
+		if (updatedProduct) {
+			res.send({ success: true, message: 'Product updated successfully', updatedProduct });
+		} else {
+			res.send({ success: false, message: 'Product not found' });
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).send({ success: false, error: 'Internal Server Error' });
+	}
+};
+
+const updateProductnPrice = async (req, res) => {
+	try {
+		const { pid, price } = req.body;
+  
+		const updatedProduct = await Product.findOneAndUpdate(
+			{ pid },
+			{ $set: { price: price } },
 			{ new: true }
 		);
   
@@ -90,4 +125,4 @@ const updateProductnQuantity = async (req, res) => {
 };
 
 
-export { getProduct, getProductByID, addProduct, deleteProduct, greetByPOST, updateProductnQuantity };
+export { getProduct, getProductByID, addProduct, deleteProduct, greetByPOST, updateProductnQuantity, updateProductnPrice };

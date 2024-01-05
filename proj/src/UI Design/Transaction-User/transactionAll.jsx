@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { ImFilesEmpty } from "react-icons/im";
 import PaginationButtons from "../pagination/paginationButton";
 
+import { FcCancel } from "react-icons/fc";
+import { FcShipped } from "react-icons/fc";
+
 const TransactionAll = ({user, transactions, setTransactions}) => {
 
     const [pageCount, setPageCount] = useState(0);
@@ -55,8 +58,9 @@ const TransactionAll = ({user, transactions, setTransactions}) => {
     }
 
     const handleCancelTransaction = async (transaction) => {
+
         const tid = transaction.tid;
-        console.log(tid);
+        const newCancelation = new Date();
     
         try {
             const response = await fetch('http://localhost:3001/update-transaction-status', {
@@ -65,19 +69,11 @@ const TransactionAll = ({user, transactions, setTransactions}) => {
                 body: JSON.stringify({ tid, newStatus: -2 }),
             });
     
-            const data = await response.json();
-    
-            console.log(data.message);
-    
-            const response2 = await fetch('http://localhost:3001/update-transaction-message', {
+            const response3 = await fetch('http://localhost:3001/update-transaction-cancelation', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tid, newMessage: "Cancelled By User" }),
+                body: JSON.stringify({ tid, newCancelation }),
             });
-    
-            const data2 = await response2.json();
-    
-            if (!data.success) return;
     
             fetchTransactionsAll();
     
@@ -90,6 +86,26 @@ const TransactionAll = ({user, transactions, setTransactions}) => {
     const handlePageClick = (event) => {
         setPageEnd((event.selected + 1) * 5);
         setPageStart(((event.selected + 1) * 5) - 5);
+    }
+
+    const handleDate = (dateString) => {
+        const parsedDate = new Date(dateString);
+        const formattedDate = parsedDate.toLocaleDateString();
+    
+        const dateParts = formattedDate.split('/');
+    
+        const dayString = dateParts[1];
+        const yearString = dateParts[2];
+        const monthNumber = parseInt(dateParts[0], 10);
+    
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+    
+        const monthName = monthNames[monthNumber - 1];
+    
+        return monthName + " " + dayString + ", " + yearString;
     }
 
     return(
@@ -132,14 +148,21 @@ const TransactionAll = ({user, transactions, setTransactions}) => {
 
                                 <div className="flex flex-col font-bold text-sm justify-center items-center w-[12.5%]">
                                     <p className="text-[#b1b1b1]">Date Ordered:</p>
-                                    <p className="text-[#2D4944] text-base">{transaction.date.slice(0, 10)}</p>
+                                    <p className="text-[#2D4944] text-base">{handleDate(transaction.date)}</p>
                                 </div>
 
                                 {
                                     transaction.status === -2 && (
-                                        <div className="flex flex-col font-bold text-sm justify-center text-center items-center w-[12.5%]">
-                                            <p className="text-[#b1b1b1]">Reason:</p>
-                                            <p className="text-[#2D4944] text-base text-ellipsis">{transaction.message}</p>
+                                        <div className="flex flex-col justify-center text-center items-center w-[12.5%]">
+                                            <FcCancel size={60} />
+                                        </div>
+                                    )
+                                }
+
+{
+                                    transaction.status === 1 && (
+                                        <div className="flex flex-col justify-center text-center items-center w-[12.5%]">
+                                            <FcShipped size={60} />
                                         </div>
                                     )
                                 }

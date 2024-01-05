@@ -4,7 +4,6 @@ import { FaUsers } from "react-icons/fa6";
 import { TbReportSearch } from "react-icons/tb";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { SiProducthunt } from "react-icons/si";
-
 import { Link } from 'react-router-dom';
 
 const DashBoard = () => {
@@ -78,7 +77,7 @@ const DashBoard = () => {
                     <div className="mb-6">
                         <h1 className="text-[#2D4944] font-semibold text-2xl">Product</h1>
                     </div>
-                    <Link to="/order-list" className="flex">
+                    <Link to="/product-list" className="flex">
                         <button className="bg-[#2D4944] text-white text-sm font-medium p-2 rounded-2xl w-60 hover:bg-[#50726b]">
                             Review
                         </button>

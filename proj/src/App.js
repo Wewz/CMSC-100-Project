@@ -4,10 +4,12 @@ import MainNavBar from "./Pages/navBars";
 import Footer from "./UI Design/Homepage Not Signed In/footer";
 import SignUp from "./Pages/SignUp";
 import Home from "./Pages/homePage";
-import OrderList from "./UI Design/Merchantpage/orderList";
-import UserList from "./UI Design/Merchantpage/userList";
-import SalesReport from "./UI Design/Merchantpage/salesReport";
+
+import OrderList from "./UI Design/Merchant/orderList";
+import UserList from "./UI Design/Merchant/userList";
+import SalesReport from "./UI Design/Merchant/salesReport";
 import TransactionPage from "./Pages/transaction";
+import ProductList from "./UI Design/Merchant/productList";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -44,6 +46,7 @@ function App() {
           <Route path="/user-list" element={<UserList merchantLogged={merchantLogged} />}></Route>
           <Route path="/order-list" element={<OrderList merchantLogged={merchantLogged} />}></Route>
           <Route path="/sales-report" element={<SalesReport merchantLogged={merchantLogged}/>}></Route>
+          <Route path="/product-list" element={<ProductList merchantLogged={merchantLogged}/>}></Route>
 
           <Route path="/" element={<Home userLogged={userLogged} setUserLogged={setUserLogged} merchantLogged={merchantLogged} setMerchantLogged={setMerchantLogged} user={user} />}></Route>
           <Route path="/sign-up" element={<SignUp userLogged={userLogged} merchantLogged={merchantLogged} />}></Route>
