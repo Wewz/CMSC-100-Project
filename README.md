@@ -1,4 +1,4 @@
-git pGROUP NUMBER: 4
+GROUP NUMBER: 4
 
 MEMBERS: 
 
@@ -10,7 +10,10 @@ Rainier Nieto
 
 Francis Vernon Velasco (No Contribution)
 
-DESCRIPTION: This program is an e-commerce website that is designed to be used by the Department of Agriculture (DA) to facilitate transactions between farmers and customers directly. The DA will have the capability to compile a catalog of items for sale in the public market. The database used to store information about the products, merchants, transactions, and customers is the MongoDB. The frontend and backend stacks are react JS and node JS based web servers using Express JS, respectively. 
+
+PROJECT DESCRIPTION: 
+
+This program is an e-commerce website that is designed to be used by the Department of Agriculture (DA) to facilitate transactions between farmers and customers directly. The DA will have the capability to compile a catalog of items for sale in the public market. The database used to store information about the products, merchants, transactions, and customers is the MongoDB. The frontend and backend stacks are react JS and node JS based web servers using Express JS, respectively. 
 
 --------
 Features: This website has three main views, the homepage, the customer view, and the admin view. 
