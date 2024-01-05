@@ -29,8 +29,7 @@ const Cart = ({basket, empty, totalCost, user, setSeeCart, emptyBasket}) => {
     }
 
 
-	const handleOnSubmit = async (e) => {
-        e.preventDefault(); // Move this line outside the loop
+	const handleOnSubmit = async () => {
     
         for (let i = 0; i < basket.length; i++) {
 
