@@ -2,13 +2,14 @@ GROUP NUMBER: 4
 
 MEMBERS: 
 
-Renz Alfrace Abalos
+  * Renz Alfrace Abalos
 
-John Lester Centino
+  * John Lester Centino
 
-Rainier Nieto
+  * Rainier Nieto
 
-Francis Vernon Velasco (No Contribution)
+  * Francis Vernon Velasco (No Contribution)
+
 
 
 PROJECT DESCRIPTION: 
